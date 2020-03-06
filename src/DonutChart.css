@@ -1,0 +1,33 @@
+.DonutChart {
+    border: 1px solid #ababab;
+}
+
+.DonutChart .label {
+    cursor: pointer;
+    padding: 10px;
+}
+
+.DonutChart path {
+    cursor: pointer;
+}
+
+.DonutChart .legend {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+
+.DonutChart .legend .legend-item {
+    text-align: center;
+    min-width: 60px;
+}
+
+.DonutChart text {
+    font-size: 30px;
+}
+
+.demo {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
