@@ -2,8 +2,8 @@ import { arc, pie } from "d3";
 import * as React from "react";
 import { Motion, spring } from "react-motion";
 
-import focusedHOC, { InjectedProps } from "./focusedHOC";
-import { getColour, tooltipFormat } from "./utils";
+import focusedHOC, { InjectedProps } from "../focusedHOC";
+import { getColour, tooltipFormat } from "../utils";
 
 export interface Data {
     label: string;

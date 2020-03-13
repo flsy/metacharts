@@ -63,7 +63,7 @@ const reduce = (fn, array: number[]) => {
 };
 
 export const max = (array: number[]): number => reduce((a, b) => Math.max(a, b), array);
-const min = (array: number[]): number => reduce((a, b) => Math.min(a, b), array);
+// const min = (array: number[]): number => reduce((a, b) => Math.min(a, b), array);
 
 export const maxProp = (property: string, array: object[]) => max(array.map(d => d[property]));
 

@@ -1,7 +1,7 @@
 import * as React from "react";
 
-import focusedHOC from "./focusedHOC";
-import { tooltipFormat } from "./utils";
+import focusedHOC from "../focusedHOC";
+import { tooltipFormat } from "../utils";
 
 interface Props {
     value: number;

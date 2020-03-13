@@ -1,5 +1,5 @@
 import React from 'react';
-import { LineChart } from './export';
+import { LineChart } from '../export';
 
 const data = [
     {

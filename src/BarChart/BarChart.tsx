@@ -3,9 +3,9 @@ import { Motion, spring } from "react-motion";
 
 import { scaleBand, scaleLinear } from "d3";
 
-import { maxProp, prop, reduceAxisLabels, getColour, tooltipFormat } from "./utils";
-import { XAxis, YAxis } from "./Axis";
-import focusedHOC, { InjectedProps } from "./focusedHOC";
+import { maxProp, prop, reduceAxisLabels, getColour, tooltipFormat } from "../utils";
+import { XAxis, YAxis } from "../Axis";
+import focusedHOC, { InjectedProps } from "../focusedHOC";
 
 export interface Data {
     uniqueKey?: string;

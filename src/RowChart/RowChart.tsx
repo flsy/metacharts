@@ -2,9 +2,9 @@ import { scaleBand, scaleLinear } from "d3";
 import * as React from "react";
 import { Motion, spring } from "react-motion";
 
-import { maxProp } from "./utils";
-import focusedHOC, { InjectedProps } from "./focusedHOC";
-import { getColour, tooltipFormat } from "./utils";
+import { maxProp } from "../utils";
+import focusedHOC, { InjectedProps } from "../focusedHOC";
+import { getColour, tooltipFormat } from "../utils";
 
 export interface Data {
     key: string;

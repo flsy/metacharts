@@ -1,6 +1,6 @@
 import { mount } from "enzyme";
 import * as React from "react";
-import BarChart from "../BarChart";
+import BarChart from "./BarChart";
 
 describe("<BarChart />", () => {
     it("renders bar chart with one bar", () => {

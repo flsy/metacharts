@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { DonutChart } from './export';
+import { DonutChart } from '../export';
 import { Data } from './DonutChart';
 
 const data = [

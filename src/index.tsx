@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import DonutChartDemo from './DonutChartDemo';
-import LineChartDemo from './LineChartDemo';
-import RowCharDemo from './RowCharDemo';
-import BarChartDemo from './BarChartDemo';
+import DonutChartDemo from './DonutChart/DonutChartDemo';
+import LineChartDemo from './LineChart/LineChartDemo';
+import RowCharDemo from './RowChart/RowCharDemo';
+import BarChartDemo from './BarChart/BarChartDemo';
 import { NumberChart } from './export';
 
 const App = () => (

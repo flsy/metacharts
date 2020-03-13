@@ -1,5 +1,5 @@
 import React from 'react';
-import { RowChart } from './export';
+import { RowChart } from '../export';
 
 const data = [
     {

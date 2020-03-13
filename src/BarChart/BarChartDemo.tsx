@@ -1,5 +1,5 @@
 import React from 'react';
-import { BarChart } from './export';
+import { BarChart } from '../export';
 
 const BarChartDemo: React.FC = () => {
 
