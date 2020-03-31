@@ -23,9 +23,11 @@ const data = [
 
 
 const RowCharDemo: React.FC = () => {
+    const [filters, setFilter] = React.useState<string[]>([]);
     return (
-        <DemoContainer title="Row chart" settings={{ withXLabel: true, withYLabel: true }}>
+        <DemoContainer title="Row chart" settings={{ withXLabel: true, withYLabel: true, filterable: true, yLabelCustomWidth: 15, xLabelCustomWidth: 100, customValueFormat: false, customToolTipFormat: false }}>
             {(settings) => (
+                <div>
 
                 <RowChart
                     data={data}
@@ -33,7 +35,15 @@ const RowCharDemo: React.FC = () => {
                     yAxisLabel={settings.withYLabel ? "Y label" : undefined}
                     xAxisLabel={settings.withXLabel ? "X label" : undefined}
                     colour="green"
+                    onFilter={settings.filterable ? (filter) => setFilter([...filters, filter]) :  undefined}
+                    filters={settings.filterable ? filters : undefined}
+                    labelWidth={settings.yLabelCustomWidth || undefined}
+                    valueLabelWidth={settings.xLabelCustomWidth || undefined}
+                    valueFormat={settings.customValueFormat ? (val) => `${val},-` : undefined}
+                    tooltipValueFormat={settings.customToolTipFormat ? (val) => `${val} custom tooltip` :  undefined}
                 />
+                    {settings.filterable && <pre>{JSON.stringify(filters)}</pre>}
+                </div>
             )}
         </DemoContainer>
     );
