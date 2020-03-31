@@ -9,10 +9,9 @@ interface Props {
 
     valueFormat?: (value: number) => string;
     tooltipValueFormat?: (value: number) => string;
-    children?: any;
 }
 
-const NumberChart = ({ value, label, valueFormat, tooltipValueFormat, children }: Props) => {
+const NumberChart: React.FC<Props> = ({ value, label, valueFormat, tooltipValueFormat, children }) => {
 
     return (
         <div className="NumberChart"

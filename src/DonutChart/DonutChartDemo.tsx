@@ -58,22 +58,7 @@ class DonutChartDemo extends Component<object, IState> {
         // console.log(this.state.width)
         return (
             <div style={{ display: 'flex'}}>
-                <div style={{ width: '400px' }}>
-                    <DonutChart
-                        width={this.state.width}
-                        height={200}
-                        data={this.state.data}
-                        filters={this.state.filters}
-                        onFilter={(label) => this.filter(label)}
-                        valueFormat={(x) => `${Math.floor(x)}%`}
-
-                        // onMouseOver={(label) => this.setState({ focusedLabel: label })}
-                        // onMouseOut={(label) => this.setState({ focusedLabel: undefined })}
-                        // focusedLabel={this.state.focusedLabel}
-                    />
-                </div>
-
-                <div style={{ width: "250px" }}>
+                <div style={{ width: "300px" }}>
                     <p>filters</p>
                     [{this.state.filters.map(f => (`"${f}"`)).join(", ")}]
                     <button onClick={() => this.setState({ filters: [] })}>reset</button>
@@ -98,6 +83,20 @@ class DonutChartDemo extends Component<object, IState> {
                             width: parseInt(event.target.value, 10)
                         })
                     }}
+                    />
+                </div>
+                <div style={{ width: '400px' }}>
+                    <DonutChart
+                        width={this.state.width}
+                        height={200}
+                        data={this.state.data}
+                        filters={this.state.filters}
+                        onFilter={(label) => this.filter(label)}
+                        valueFormat={(x) => `${Math.floor(x)}%`}
+
+                        // onMouseOver={(label) => this.setState({ focusedLabel: label })}
+                        // onMouseOut={(label) => this.setState({ focusedLabel: undefined })}
+                        // focusedLabel={this.state.focusedLabel}
                     />
                 </div>
             </div>

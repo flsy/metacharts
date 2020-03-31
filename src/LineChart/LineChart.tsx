@@ -1,15 +1,8 @@
 import * as React from "react";
 
-import {
-    axisBottom,
-    bisector,
-    extent,
-    line,
-    scaleLinear,
-    select,
-} from "d3";
+import { bisector, extent, line, scaleLinear, } from "d3";
 
-import { YAxis } from "../Axis";
+import { XAxis, YAxis } from "../Axis";
 import FilterX from "./FilterX";
 import Focus from "./Focus";
 
@@ -39,7 +32,9 @@ interface Props {
     filterFrom?: number;
     filterTo?: number;
     valueFormat?: (value: number) => string;
+    keyFormat?: (value: string, index: number) => string;
 
+    xAxisTicksRotate?: number;
     xAxisLabel?: string;
     yAxisLabel?: string;
 }
@@ -66,7 +61,6 @@ interface State {
 
 class LineChart extends React.Component<Props, State> {
     private svg = React.createRef<any>();
-    private x = React.createRef<any>();
 
     constructor(props: Props) {
         super(props);
@@ -114,20 +108,6 @@ class LineChart extends React.Component<Props, State> {
         return this.scaleX().invert(x);
     }
 
-    public updateAxis() {
-        const xAxis = axisBottom(this.scaleX());
-
-        select(this.x.current).call(xAxis);
-    }
-
-    public componentDidMount() {
-        this.updateAxis();
-    }
-
-    public componentWillReceiveProps(nexProps: Props) {
-        this.updateAxis(); // todo: optimalization: update only when props.data has changed
-    }
-
     public onMouseMove(event: MouseEvent) {
         const x = this.mousePosition(event);
 
@@ -154,8 +134,12 @@ class LineChart extends React.Component<Props, State> {
             const d0 = data[i - 1];
             const d1 = data[i];
 
-            if (!d0) { return; }
-            if (!d1) { return; }
+            if (!d0) {
+                return;
+            }
+            if (!d1) {
+                return;
+            }
 
             const focusedNode = x - d0.key > d1.key - x ? d1 : d0;
 
@@ -289,7 +273,7 @@ class LineChart extends React.Component<Props, State> {
     }
 
     public render() {
-        const { data, width, height, xAxisLabel, yAxisLabel, valueFormat, colour } = this.props;
+        const { data, width, height, xAxisLabel, yAxisLabel, valueFormat, keyFormat, colour } = this.props;
         const h = height - margin.top - margin.bottom - xAxisHeight;
         const scaleX = this.scaleX();
 
@@ -325,12 +309,9 @@ class LineChart extends React.Component<Props, State> {
         return (
             <svg width={width} height={height} ref={this.svg}>
                 <g transform={`translate(${margin.left + yAxisWidth}, ${margin.top})`}>
-                    <g
-                        className="x axis"
-                        transform={`translate(0,${h})`}
-                        ref={this.x}
-                    />
-                    <YAxis scale={this.scaleY()} tickFormat={valueFormat}/>
+                    <XAxis height={h} scale={this.scaleX() as any} tickFormat={keyFormat}
+                           rotate={this.props.xAxisTicksRotate} />
+                    <YAxis scale={this.scaleY()} tickFormat={valueFormat} />
 
                     <path
                         d={valueLine(data)}
@@ -341,7 +322,8 @@ class LineChart extends React.Component<Props, State> {
                         strokeLinecap="round"
                     />
 
-                    {this.state.isFocused ? (<Focus x={this.state.focusedX} y={this.state.focusedY} height={h} />) : null}
+                    {this.state.isFocused ? (
+                        <Focus x={this.state.focusedX} y={this.state.focusedY} height={h} />) : null}
                     {isFiltered ? (
                         <FilterX
                             height={h}
@@ -367,9 +349,11 @@ class LineChart extends React.Component<Props, State> {
                         onMouseUp={(event: any) => this.props.onFilter ? this.onMouseUp() : null}
                     />
 
-                    {xAxisLabel ? <text transform={`translate(${width / 2}, ${height})`} dy="-1em" textAnchor="middle">{xAxisLabel}</text> : null}
+                    {xAxisLabel ? <text transform={`translate(${width / 2}, ${height})`} dy="-1em"
+                                        textAnchor="middle">{xAxisLabel}</text> : null}
 
-                    {yAxisLabel ? <text transform="rotate(-90)" y={-10} x={- (height / 2)} dy="-1em" textAnchor="middle">{yAxisLabel}</text> : null}
+                    {yAxisLabel ? <text transform="rotate(-90)" y={-10} x={-(height / 2)} dy="-1em"
+                                        textAnchor="middle">{yAxisLabel}</text> : null}
 
                 </g>
             </svg>

@@ -22,9 +22,12 @@ interface Props {
     onFilter?: (label: string) => void;
     labelWidth?: number;
     valueLabelWidth?: number;
+
+    xAxisLabel?: string;
+    yAxisLabel?: string;
 }
 
-const RowChart = ({ data = [], width, filters = [], focused, onFilter, onFocus, colour, valueFormat, tooltipValueFormat, labelWidth = 80, valueLabelWidth = 40 }: Props & InjectedProps) => {
+const RowChart: React.FC<Props & InjectedProps> = ({ data = [], width, filters = [], focused, onFilter, onFocus, colour, valueFormat, tooltipValueFormat, labelWidth = 80, valueLabelWidth = 40, xAxisLabel, yAxisLabel }) => {
     const rowHeight = 40;
     const height = rowHeight * data.length;
     const margin = { top: 10, right: 10, bottom: 10, left: 10 };
@@ -34,16 +37,21 @@ const RowChart = ({ data = [], width, filters = [], focused, onFilter, onFocus, 
     const labelBottomPadding = 4;
     const valueLabelLeftPadding = 5;
 
+    const leftAxisMaxWidth = 0;
+    const tickPadding = 9;
+    const leftLabelHeight = yAxisLabel ? 19 : 0;
+
     const xScale = scaleLinear()
         .range([0, w - labelWidth - valueLabelWidth - valueLabelLeftPadding])
         .domain([0, maxValue]);
+
     const yScale = scaleBand()
         .rangeRound([0, height - margin.top - margin.bottom])
         .domain(data.map((d) => d.key));
 
     return (
         <svg width={width} height={height} className="RowChart">
-            <g transform={`translate(${margin.left}, ${margin.top})`}>
+            <g transform={`translate(${margin.left + leftAxisMaxWidth + tickPadding + leftLabelHeight}, ${margin.top})`}>
                 {data.map((d) => {
                     const y = yScale(d.key) || 0;
                     return (
@@ -84,6 +92,10 @@ const RowChart = ({ data = [], width, filters = [], focused, onFilter, onFocus, 
                         </g>
                     );
                 })}
+
+                {xAxisLabel ? (<text className="RowChart__label" transform={`translate(${w / 2}, ${height})`} dy="-1em" textAnchor="middle">{xAxisLabel}</text>) : null}
+                {yAxisLabel ? (<text className="RowChart__label" transform="rotate(-90)" x={-(height / 2)} y={-leftAxisMaxWidth} dy="-1em" textAnchor="middle">{yAxisLabel}</text>) : null}
+
             </g>
         </svg>
     );

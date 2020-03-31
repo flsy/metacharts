@@ -1,5 +1,6 @@
 import React from 'react';
 import { RowChart } from '../export';
+import DemoContainer from '../DemoContainer';
 
 const data = [
     {
@@ -21,9 +22,20 @@ const data = [
 ];
 
 
-const RowCharDemo = () => {
+const RowCharDemo: React.FC = () => {
     return (
-        <RowChart data={data} width={400} colour="green" />
+        <DemoContainer title="Row chart" settings={{ withXLabel: true, withYLabel: true }}>
+            {(settings) => (
+
+                <RowChart
+                    data={data}
+                    width={400}
+                    yAxisLabel={settings.withYLabel ? "Y label" : undefined}
+                    xAxisLabel={settings.withXLabel ? "X label" : undefined}
+                    colour="green"
+                />
+            )}
+        </DemoContainer>
     );
 };
 
