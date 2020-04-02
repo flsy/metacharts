@@ -79,3 +79,13 @@ export interface IDonutChart {
   tooltipValueFormat?: (value: number) => string;
   children?: any;
 }
+
+export interface INumberChart {
+  value: number;
+  label?: string;
+  color: string;
+  width: number;
+
+  valueFormat?: (value: number) => string;
+  tooltipValueFormat?: (value: number) => string;
+}

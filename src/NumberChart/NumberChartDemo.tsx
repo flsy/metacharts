@@ -13,6 +13,8 @@ const NumberChartDemo: React.FC = () => {
         >
             {(settings, input) => (
                 <NumberChart
+                    width={200}
+                    color="#88BB88"
                     value={input}
                     label={settings.useCustomLabel ? 'custom label' : undefined}
                     valueFormat={settings.useCustomValueFormat ? (val) => `${Math.floor(val)},-` : undefined}

@@ -1,22 +1,17 @@
 import * as React from "react";
+import { Motion, spring } from 'react-motion';
 
 import focusedHOC from "../focusedHOC";
 import { tooltipFormat } from "../utils";
-import { Motion, spring } from 'react-motion';
+import { INumberChart } from '../interfaces';
 
-interface Props {
-    value: number;
-    label?: string;
-
-    valueFormat?: (value: number) => string;
-    tooltipValueFormat?: (value: number) => string;
-}
-
-const NumberChart: React.FC<Props> = ({ value, label, valueFormat, tooltipValueFormat, children }) => {
-
+const NumberChart: React.FC<INumberChart> = ({ value, label, valueFormat, tooltipValueFormat, width , color, children }) => {
     return (
-        <div className="NumberChart"
-             title={`${label ? `${label}: ` : ""}${tooltipFormat(value, tooltipValueFormat, valueFormat)}`}>
+        <div
+            className="NumberChart"
+            title={`${label ? `${label}: ` : ""}${tooltipFormat(value, tooltipValueFormat, valueFormat)}`}
+            style={{ width: `${width}px`, height: `${width}px`, backgroundColor: color, lineHeight: `${width}px` }}
+        >
             {children}
 
             <Motion
