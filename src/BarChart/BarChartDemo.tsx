@@ -7,10 +7,10 @@ const BarChartDemo: React.FC = () => {
     const data = [{ key: '8', value: 8 }, { key: '10', value: 10 }];
 
     return (
-        <DemoContainer title="Bar chart" settings={{ withXLabel: true, withYLabel: true, xLabelRotate: false }}>
-            {(settings) => (
+        <DemoContainer title="Bar chart" settings={{ withXLabel: true, withYLabel: true, xLabelRotate: false }} data={data}>
+            {(settings, input) => (
                 <BarChart
-                    data={data}
+                    data={input}
                     height={300}
                     width={300}
                     colour="green"

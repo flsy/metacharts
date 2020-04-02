@@ -4,21 +4,23 @@ import DonutChartDemo from './DonutChart/DonutChartDemo';
 import LineChartDemo from './LineChart/LineChartDemo';
 import RowCharDemo from './RowChart/RowCharDemo';
 import BarChartDemo from './BarChart/BarChartDemo';
-import { NumberChart } from './export';
+import NumberChartDemo from './NumberChart/NumberChartDemo';
 
 const App = () => (
     <div>
-        <h3>Donut chart</h3>
-        <DonutChartDemo />
+        <div style={{ padding: '10px'}}>
 
-        <LineChartDemo />
+            <h3>Donut chart</h3>
+            <DonutChartDemo />
 
-        <RowCharDemo />
+            <LineChartDemo />
 
-        <BarChartDemo  />
+            <RowCharDemo />
 
-        <h3>Number chart</h3>
-        <NumberChart value={50} />
+            <BarChartDemo />
+
+            <NumberChartDemo />
+        </div>
     </div>
 );
 

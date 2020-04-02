@@ -30,12 +30,12 @@ const LineChartDemo = () => {
 
     return (
         <div>
-            <DemoContainer title="Line chart" settings={{ withXLabel: true, withYLabel: true, useKeyFormat: false, useFilters: true, xLabelRotate: false }}>
-                {(settings) => {
+            <DemoContainer title="Line chart" settings={{ withXLabel: true, withYLabel: true, useKeyFormat: false, useFilters: true, xLabelRotate: false }} data={data}>
+                {(settings, input) => {
                     return (
                         <div>
                             <LineChart
-                                data={data}
+                                data={input}
                                 height={300}
                                 width={500}
                                 yAxisLabel={settings.withYLabel ? "Y label" : undefined}

@@ -1,19 +1,21 @@
 import React from 'react';
 
-interface IProps<T> {
+interface IProps<T, D> {
     title: string;
     settings: T;
-    children: (settings: T) => any;
-
+    children: (settings: T, input: D) => any;
+    data: D;
 }
 
-const DemoContainer = <T extends object>({ children, title, settings }: IProps<T>) => {
+const DemoContainer = <T extends object, D extends object | number>({ children, title, settings, data }: IProps<T, D>) => {
     const [changes, onChange] = React.useState<T>(settings);
+    const [input, setInput] = React.useState<D>(data);
+    const [isInvalid, setIsInvalid] = React.useState<boolean>(false);
 
     return (
-        <div>
+        <div style={{ marginTop: '20px', borderTop: '1px solid grey'}}>
             <h2>{title}</h2>
-            <div style={{ display: 'flex' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <div style={{ minWidth: '300px' }}>
                     {Object.keys(changes).map(key => {
                         const id = `${title}=${key}`;
@@ -41,7 +43,25 @@ const DemoContainer = <T extends object>({ children, title, settings }: IProps<T
                     })}
                 </div>
                 <div>
-                    {children(changes)}
+                    {children(changes, input)}
+                </div>
+                <div>
+                    <textarea
+                        style={{ height: '100%' }}
+                        rows={10}
+                        cols={50}
+                        onChange={(event) => {
+                            try {
+                                const parsed = JSON.parse(event.target.value);
+                                setInput(parsed);
+                                setIsInvalid(false);
+                            } catch (error) {
+                                setIsInvalid(true);
+                            }
+                        }}
+                        defaultValue={JSON.stringify(data, null, 2)}
+                    />
+                    <div>{isInvalid && <span>invalid JSON</span>}</div>
                 </div>
             </div>
         </div>
