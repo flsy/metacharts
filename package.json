@@ -21,7 +21,7 @@
     "verify": "npm run format && npm run lint && npm run test && npm run build",
     "start": "react-scripts start",
     "predeploy": "react-scripts build",
-    "deploy": "NODE_DEBUG=gh-pages gh-pages -d build"
+    "deploy": "gh-pages -d build"
   },
   "dependencies": {
     "d3": "^5.15.0",

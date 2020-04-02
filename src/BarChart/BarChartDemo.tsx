@@ -7,7 +7,7 @@ const BarChartDemo: React.FC = () => {
     const data = [{ key: '8', value: 8 }, { key: '10', value: 10 }];
 
     return (
-        <DemoContainer title="Bar chart" settings={{ withXLabel: true, withYLabel: true }}>
+        <DemoContainer title="Bar chart" settings={{ withXLabel: true, withYLabel: true, xLabelRotate: false }}>
             {(settings) => (
                 <BarChart
                     data={data}
@@ -16,6 +16,7 @@ const BarChartDemo: React.FC = () => {
                     colour="green"
                     yAxisLabel={settings.withYLabel ? "Y label" : undefined}
                     xAxisLabel={settings.withXLabel ? "X label" : undefined}
+                    xAxisTicksRotate={settings.xLabelRotate ? -45 : undefined}
                 />)}
         </DemoContainer>
     );

@@ -56,7 +56,7 @@ const BarChart: React.FC<Props & InjectedProps> = ({ width, height, data, filter
 
     const bottomAxisHeightUpdated = (height: number) => {
         if (bottomAxisMaxWidth !== height) {
-            setBottomAxisMaxWidth(width)
+            setBottomAxisMaxWidth(height)
         }
     };
 
@@ -67,7 +67,8 @@ const BarChart: React.FC<Props & InjectedProps> = ({ width, height, data, filter
                     height={h}
                     scale={scaleX}
                     rotate={xAxisTicksRotate}
-                    tickFormat={reduceAxisLabels(w, keys)} axisHeightUpdated={(he) => bottomAxisHeightUpdated(he)}
+                    tickFormat={reduceAxisLabels(w, keys)}
+                    axisHeightUpdated={(he) => bottomAxisHeightUpdated(he)}
                 />
                 <YAxis scale={scaleY} tickFormat={valueFormat} axisWidthUpdated={(we) => axisUpdated(we)} />
 

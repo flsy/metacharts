@@ -10,9 +10,6 @@ const margin = { top: 10, right: 10, bottom: 20, left: 20 };
 
 const filterHandlePadding = 2; // px
 
-const xAxisHeight = 20;
-const yAxisWidth = 20;
-
 export interface Data {
     key: number;
     value: number;
@@ -40,6 +37,9 @@ interface Props {
 }
 
 interface State {
+    xAxisHeight: number;
+    yAxisWidth: number;
+
     focusedX: number;
     focusedY: number;
 
@@ -64,8 +64,13 @@ class LineChart extends React.Component<Props, State> {
 
     constructor(props: Props) {
         super(props);
+        this.bottomAxisUpdated = this.bottomAxisUpdated.bind(this);
+        this.leftAxisUpdated = this.leftAxisUpdated.bind(this);
 
         this.state = {
+            xAxisHeight: 0,
+            yAxisWidth: 0,
+
             focusedX: 0,
             focusedY: 0,
 
@@ -87,7 +92,8 @@ class LineChart extends React.Component<Props, State> {
     }
 
     public scaleX() {
-        const w = this.props.width - margin.left - margin.right - yAxisWidth;
+        const leftLabelHeight = this.state.yAxisWidth ? 19 : 0;
+        const w = this.props.width - margin.left - margin.right - this.state.yAxisWidth - leftLabelHeight;
 
         return scaleLinear()
             .rangeRound([0, w])
@@ -95,7 +101,8 @@ class LineChart extends React.Component<Props, State> {
     }
 
     public scaleY() {
-        const h = this.props.height - margin.top - margin.bottom - xAxisHeight;
+        const bottomLabelHeight = this.props.xAxisLabel ? 19 : 0;
+        const h = this.props.height - margin.top - margin.bottom - this.state.xAxisHeight - bottomLabelHeight;
         return scaleLinear()
             .rangeRound([h, 0])
             .domain(extent(this.props.data, (d) => d.value) as number[]);
@@ -103,7 +110,7 @@ class LineChart extends React.Component<Props, State> {
 
     public mousePosition(event: MouseEvent) {
         const position = this.svg.current.getBoundingClientRect();
-        const x = event.pageX - margin.left - yAxisWidth - position.left;
+        const x = event.pageX - margin.left - this.state.yAxisWidth - position.left;
 
         return this.scaleX().invert(x);
     }
@@ -272,9 +279,23 @@ class LineChart extends React.Component<Props, State> {
         return "crosshair";
     }
 
+    private bottomAxisUpdated(height: number) {
+        if (this.state.xAxisHeight !== height) {
+            this.setState({ xAxisHeight: height })
+        }
+    }
+
+    private leftAxisUpdated(width: number) {
+        if (this.state.yAxisWidth !== width) {
+            this.setState({ yAxisWidth: width })
+        }
+    }
+
     public render() {
         const { data, width, height, xAxisLabel, yAxisLabel, valueFormat, keyFormat, colour } = this.props;
-        const h = height - margin.top - margin.bottom - xAxisHeight;
+        const leftLabelHeight = yAxisLabel ? 19 : 0;
+        const bottomLabelHeight = xAxisLabel ? 19 : 0;
+        const h = height - margin.top - margin.bottom - this.state.xAxisHeight - bottomLabelHeight;
         const scaleX = this.scaleX();
 
         const valueLine: any = line()
@@ -308,10 +329,19 @@ class LineChart extends React.Component<Props, State> {
 
         return (
             <svg width={width} height={height} ref={this.svg}>
-                <g transform={`translate(${margin.left + yAxisWidth}, ${margin.top})`}>
-                    <XAxis height={h} scale={this.scaleX() as any} tickFormat={keyFormat}
-                           rotate={this.props.xAxisTicksRotate} />
-                    <YAxis scale={this.scaleY()} tickFormat={valueFormat} />
+                <g transform={`translate(${margin.left + this.state.yAxisWidth + leftLabelHeight}, ${margin.top})`}>
+                    <XAxis
+                        height={h}
+                        scale={this.scaleX() as any}
+                        tickFormat={keyFormat}
+                        rotate={this.props.xAxisTicksRotate}
+                        axisHeightUpdated={this.bottomAxisUpdated}
+                    />
+                    <YAxis
+                        scale={this.scaleY()}
+                        tickFormat={valueFormat}
+                        axisWidthUpdated={this.leftAxisUpdated}
+                    />
 
                     <path
                         d={valueLine(data)}
@@ -340,7 +370,7 @@ class LineChart extends React.Component<Props, State> {
                         fill="none"
                         pointerEvents="all"
                         cursor={this.cursor()}
-                        width={width - margin.left - margin.right - yAxisWidth}
+                        width={width - margin.left - margin.right - this.state.yAxisWidth - leftLabelHeight}
                         height={height - margin.top - margin.bottom}
                         onMouseMove={(event: any) => this.onMouseMove(event)}
                         onMouseOut={() => this.setState({ isFocused: false })}
@@ -352,8 +382,7 @@ class LineChart extends React.Component<Props, State> {
                     {xAxisLabel ? <text transform={`translate(${width / 2}, ${height})`} dy="-1em"
                                         textAnchor="middle">{xAxisLabel}</text> : null}
 
-                    {yAxisLabel ? <text transform="rotate(-90)" y={-10} x={-(height / 2)} dy="-1em"
-                                        textAnchor="middle">{yAxisLabel}</text> : null}
+                    {yAxisLabel ? <text transform="rotate(-90)" y={-this.state.yAxisWidth} x={-(height / 2)} dy="-1em" textAnchor="middle">{yAxisLabel}</text> : null}
 
                 </g>
             </svg>
