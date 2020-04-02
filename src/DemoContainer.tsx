@@ -13,10 +13,10 @@ const DemoContainer = <T extends object, D extends object | number>({ children, 
     const [isInvalid, setIsInvalid] = React.useState<boolean>(false);
 
     return (
-        <div style={{ marginTop: '20px', borderTop: '1px solid grey'}}>
-            <h2>{title}</h2>
+        <div style={{ margin: '20px 0'}}>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <div style={{ minWidth: '300px' }}>
+                <div>
+                    <h2>{title}</h2>
                     {Object.keys(changes).map(key => {
                         const id = `${title}=${key}`;
                         if (typeof changes[key] === 'number') {

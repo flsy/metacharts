@@ -10,7 +10,6 @@ const App = () => (
     <div>
         <div style={{ padding: '10px'}}>
 
-            <h3>Donut chart</h3>
             <DonutChartDemo />
 
             <LineChartDemo />
