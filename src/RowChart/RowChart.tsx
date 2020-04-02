@@ -5,29 +5,9 @@ import { Motion, spring } from "react-motion";
 import { maxProp } from "../utils";
 import focusedHOC, { InjectedProps } from "../focusedHOC";
 import { getColour, tooltipFormat } from "../utils";
+import { IRowChart } from '../interfaces';
 
-export interface Data {
-    key: string;
-    value: number;
-}
-
-interface Props {
-    data: Data[];
-    width: number;
-    colour: string;
-
-    valueFormat?: (value: number) => string;
-    tooltipValueFormat?: (value: number) => string;
-    filters?: string[];
-    onFilter?: (label: string) => void;
-    labelWidth?: number;
-    valueLabelWidth?: number;
-
-    xAxisLabel?: string;
-    yAxisLabel?: string;
-}
-
-const RowChart: React.FC<Props & InjectedProps> = ({ data = [], width, filters = [], focused, onFilter, onFocus, colour, valueFormat, tooltipValueFormat, labelWidth = 80, valueLabelWidth = 40, xAxisLabel, yAxisLabel }) => {
+const RowChart: React.FC<IRowChart & InjectedProps> = ({ data = [], width, filters = [], focused, onFilter, onFocus, colour, valueFormat, tooltipValueFormat, labelWidth = 80, valueLabelWidth = 40, xAxisLabel, yAxisLabel }) => {
     const rowHeight = 40;
     const height = rowHeight * data.length;
     const margin = { top: 10, right: 10, bottom: 10, left: 10 };

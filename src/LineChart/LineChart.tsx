@@ -5,36 +5,11 @@ import { bisector, extent, line, scaleLinear, } from "d3";
 import { XAxis, YAxis } from "../Axis";
 import FilterX from "./FilterX";
 import Focus from "./Focus";
+import { ILineChart, ILineChartData } from '../interfaces';
 
 const margin = { top: 10, right: 10, bottom: 20, left: 20 };
 
 const filterHandlePadding = 2; // px
-
-export interface Data {
-    key: number;
-    value: number;
-}
-
-export interface Filter {
-    from?: number;
-    to?: number;
-}
-
-interface Props {
-    data: Data[];
-    width: number;
-    height: number;
-    colour: string;
-    onFilter?: (filter: Filter) => void;
-    filterFrom?: number;
-    filterTo?: number;
-    valueFormat?: (value: number) => string;
-    keyFormat?: (value: string, index: number) => string;
-
-    xAxisTicksRotate?: number;
-    xAxisLabel?: string;
-    yAxisLabel?: string;
-}
 
 interface State {
     xAxisHeight: number;
@@ -59,10 +34,10 @@ interface State {
     movingToDiff?: number;
 }
 
-class LineChart extends React.Component<Props, State> {
+class LineChart extends React.Component<ILineChart, State> {
     private svg = React.createRef<any>();
 
-    constructor(props: Props) {
+    constructor(props: ILineChart) {
         super(props);
         this.bottomAxisUpdated = this.bottomAxisUpdated.bind(this);
         this.leftAxisUpdated = this.leftAxisUpdated.bind(this);
@@ -135,7 +110,7 @@ class LineChart extends React.Component<Props, State> {
         } else if (this.state.isFocused) {
             const { data } = this.props;
 
-            const bisectValue = bisector((d: Data) => d.key).left;
+            const bisectValue = bisector<ILineChartData, number>((d) => d.key).left;
 
             const i = bisectValue(data, x);
             const d0 = data[i - 1];

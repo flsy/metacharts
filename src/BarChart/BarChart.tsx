@@ -6,29 +6,9 @@ import { scaleBand, scaleLinear } from "d3";
 import { getColour, maxProp, prop, reduceAxisLabels, tooltipFormat } from "../utils";
 import { XAxis, YAxis } from "../Axis";
 import focusedHOC, { InjectedProps } from "../focusedHOC";
+import { IBarChart } from '../interfaces';
 
-export interface Data {
-    uniqueKey?: string;
-    key: string;
-    value: number;
-}
-
-interface Props {
-    data: Data[];
-    width: number;
-    height: number;
-    colour: string;
-
-    valueFormat?: (value: number) => string;
-    tooltipValueFormat?: (value: number) => string;
-    xAxisTicksRotate?: number;
-    xAxisLabel?: string;
-    yAxisLabel?: string;
-    filters?: string[];
-    onFilter?: (key: string) => void;
-}
-
-const BarChart: React.FC<Props & InjectedProps> = ({ width, height, data, filters, colour, focused, valueFormat, tooltipValueFormat, onFilter, onFocus, xAxisTicksRotate, xAxisLabel, yAxisLabel }) => {
+const BarChart: React.FC<IBarChart & InjectedProps> = ({ width, height, data, filters, colour, focused, valueFormat, tooltipValueFormat, onFilter, onFocus, xAxisTicksRotate, xAxisLabel, yAxisLabel }) => {
     const [leftAxisMaxWidth, setLeftAxisMaxWidth] = React.useState(0);
     const [bottomAxisMaxWidth, setBottomAxisMaxWidth] = React.useState(0);
 

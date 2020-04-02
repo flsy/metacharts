@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { DonutChart } from '../export';
-import { Data } from './DonutChart';
+import { DonutChart, IDonutChartData } from '../export';
 
 const data = [
     {
@@ -22,7 +21,7 @@ const data = [
 
 interface IState {
     width: number;
-    data: Data[];
+    data: IDonutChartData[];
     filters: string[];
     focusedLabel?: string;
 }

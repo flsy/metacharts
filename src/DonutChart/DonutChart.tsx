@@ -4,25 +4,7 @@ import { Motion, spring } from "react-motion";
 
 import focusedHOC, { InjectedProps } from "../focusedHOC";
 import { getColour, tooltipFormat } from "../utils";
-
-export interface Data {
-    label: string;
-    value: number;
-    colour: string;
-}
-
-interface Props {
-    data: Data[];
-    width: number;
-    height: number;
-
-    filters?: string[];
-    onFilter?: (label: string) => void;
-
-    valueFormat?: (value: number) => string;
-    tooltipValueFormat?: (value: number) => string;
-    children?: any;
-}
+import { IDonutChart, IDonutChartData } from '../interfaces';
 
 const DonutChart = ({
                         data = [],
@@ -35,15 +17,14 @@ const DonutChart = ({
                         children,
                         valueFormat,
                         tooltipValueFormat,
-                    }: Props & InjectedProps) => {
+                    }: IDonutChart & InjectedProps) => {
     const radius = Math.min(width, height) / 2;
 
     const getArc: any = arc()
         .outerRadius(radius)
         .innerRadius(radius - (radius / 5));
 
-    const getPie = pie<Data>()
-        .value((d: Data): number => d.value);
+    const getPie = pie<IDonutChartData>().value((d: IDonutChartData): number => d.value);
 
     const cursor = onFilter ? "pointer" : "default";
 
