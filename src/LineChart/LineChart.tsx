@@ -85,7 +85,8 @@ class LineChart extends React.Component<ILineChart, State> {
 
     public mousePosition(event: MouseEvent) {
         const position = this.svg.current.getBoundingClientRect();
-        const x = event.pageX - margin.left - this.state.yAxisWidth - position.left;
+        const leftLabelHeight = this.state.yAxisWidth ? 19 : 0;
+        const x = event.pageX - margin.left - this.state.yAxisWidth - position.left - leftLabelHeight;
 
         return this.scaleX().invert(x);
     }
