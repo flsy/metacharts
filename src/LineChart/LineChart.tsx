@@ -347,7 +347,7 @@ class LineChart extends React.Component<ILineChart, State> {
                         pointerEvents="all"
                         cursor={this.cursor()}
                         width={width - margin.left - margin.right - this.state.yAxisWidth - leftLabelHeight}
-                        height={height - margin.top - margin.bottom}
+                        height={height - margin.top - margin.bottom - bottomLabelHeight}
                         onMouseMove={(event: any) => this.onMouseMove(event)}
                         onMouseOut={() => this.setState({ isFocused: false })}
                         onMouseOver={() => this.setState({ isFocused: true })}

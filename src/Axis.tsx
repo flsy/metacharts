@@ -24,8 +24,28 @@ export class XAxis extends React.Component<XAxisProps, {}> {
     }
 
     public updateAxis() {
-        // @ts-ignore
-        const selected = select(this.axis).call(axisBottom(this.props.scale).tickSize(0).tickPadding(6).tickFormat(this.props.tickFormat));
+
+
+        const tickFormat = (value: any, index: number): any => {
+            if (this.props.tickFormat) {
+                return this.props.tickFormat(value, index)
+            }
+            return value;
+        }
+
+        if (!this.axis) {
+            return;
+        }
+
+        const selected = select(this.axis).call(axisBottom(this.props.scale).tickSize(0).tickPadding(6).tickFormat(tickFormat));
+
+
+        // selected.on("mouseover", console.log)
+
+        // selected.append('title').text((x) => {
+        //     console.log(x)
+        //     return '?'
+        // });
 
         if (this.props.rotate) {
             selected.selectAll("g.tick text")
