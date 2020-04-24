@@ -356,10 +356,9 @@ class LineChart extends React.Component<ILineChart, State> {
                         onMouseUp={(event: any) => this.props.onFilter ? this.onMouseUp() : null}
                     />
 
-                    {xAxisLabel ? <text transform={`translate(${width / 2}, ${height})`} dy="-1em"
-                                        textAnchor="middle">{xAxisLabel}</text> : null}
+                    {xAxisLabel ? <text transform={`translate(${width / 2}, ${height})`} dy="-1em" textAnchor="middle" fontSize={14}>{xAxisLabel}</text> : null}
 
-                    {yAxisLabel ? <text transform="rotate(-90)" y={-this.state.yAxisWidth} x={-(height / 2)} dy="-1em" textAnchor="middle">{yAxisLabel}</text> : null}
+                    {yAxisLabel ? <text transform="rotate(-90)" y={-this.state.yAxisWidth} x={-(height / 2)} dy="-1em" textAnchor="middle" fontSize={14}>{yAxisLabel}</text> : null}
 
                 </g>
             </svg>

@@ -76,8 +76,6 @@ export class XAxis extends React.Component<XAxisProps, { label?: string }> {
     }
 
     public updateAxis() {
-
-
         const tickFormat = (value: any, index: number): any => {
             if (this.props.xAxisTicksTooltip) {
                 return letters[index]
@@ -96,7 +94,12 @@ export class XAxis extends React.Component<XAxisProps, { label?: string }> {
         const selected = select(this.axis).call(axisBottom(this.props.scale).tickSize(0).tickPadding(6).tickFormat(tickFormat));
 
         if (this.props.xAxisTicksTooltip) {
-            selected.selectAll("g.tick text").attr("label", (d) => `${d}`)
+            const format = this.props.tickFormat ? this.props.tickFormat : (d, i) => `${d}`;
+
+
+            selected
+                .selectAll("g.tick text")
+                .attr("label", format as any)
         }
 
         if (this.props.rotate) {
@@ -131,8 +134,8 @@ export class XAxis extends React.Component<XAxisProps, { label?: string }> {
             />
             {this.props.xAxisTicksTooltip && this.state.label && (
                 <g>
-                    <rect x={0} y={this.props.height - 22} height="20" width={textWidth(this.state.label) + 8} style={{ fill: 'white', stroke: 'grey', strokeWidth: 1, strokeOpacity: 0.9, fillOpacity: 0.9, }} />
-                    <text x={4} y={this.props.height - 8}>{this.state.label}</text>
+                    <rect x={2} y={this.props.height - 22} height="18" width={textWidth(this.state.label) + 8} style={{ fill: 'white', stroke: 'grey', strokeWidth: 1, strokeOpacity: 0.9, fillOpacity: 0.9, }} />
+                    <text x={6} y={this.props.height - 8} fontSize={14}>{this.state.label}</text>
                 </g>
             )}
             </>

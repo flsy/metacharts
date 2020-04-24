@@ -92,7 +92,7 @@ const DonutChart = ({
                                     className="label"
                                     style={{ cursor }}
                                 >
-                                    <div className="legend-item">
+                                    <div className="legend-item" style={{ fontSize: '14px' }}>
                                         <svg height="20" width="20">
                                             <Motion
                                                 defaultStyle={{ x: 0 }}

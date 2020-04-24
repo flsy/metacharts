@@ -9,11 +9,12 @@ import { IRowChart } from '../interfaces';
 
 const RowChart: React.FC<IRowChart & InjectedProps> = ({ data = [], width, filters = [], focused, onFilter, onFocus, colour, valueFormat, tooltipValueFormat, labelWidth = 80, valueLabelWidth = 40, xAxisLabel, yAxisLabel }) => {
     const rowHeight = 40;
+    const fontSize = 14;
+    const labelsHeight = fontSize + 4;
     const height = rowHeight * data.length;
     const margin = { top: 10, right: 10, bottom: 10, left: 10 };
     const w = width - margin.left - margin.right;
     const maxValue = maxProp("value", data);
-    const labelsHeight = 20;
     const labelBottomPadding = 4;
     const valueLabelLeftPadding = 5;
 
@@ -60,9 +61,9 @@ const RowChart: React.FC<IRowChart & InjectedProps> = ({ data = [], width, filte
                                 }}
                             </Motion>
 
-                            <text y={y + labelsHeight - labelBottomPadding} x={0}>{d.key}</text>
+                            <text y={y + labelsHeight - labelBottomPadding} x={0} fontSize={fontSize}>{d.key}</text>
 
-                            <text y={y + labelsHeight - labelBottomPadding} x={xScale(maxValue) + labelWidth + valueLabelLeftPadding}>
+                            <text y={y + labelsHeight - labelBottomPadding} x={xScale(maxValue) + labelWidth + valueLabelLeftPadding} fontSize={fontSize}>
                                 {valueFormat ? valueFormat(d.value) : d.value}
                             </text>
 
@@ -73,8 +74,8 @@ const RowChart: React.FC<IRowChart & InjectedProps> = ({ data = [], width, filte
                     );
                 })}
 
-                {xAxisLabel ? (<text className="RowChart__label" transform={`translate(${w / 2}, ${height})`} dy="-1em" textAnchor="middle">{xAxisLabel}</text>) : null}
-                {yAxisLabel ? (<text className="RowChart__label" transform="rotate(-90)" x={-(height / 2)} y={-leftAxisMaxWidth} dy="-1em" textAnchor="middle">{yAxisLabel}</text>) : null}
+                {xAxisLabel ? (<text className="RowChart__label" transform={`translate(${w / 2}, ${height})`} dy="-1em" textAnchor="middle" fontSize={fontSize}>{xAxisLabel}</text>) : null}
+                {yAxisLabel ? (<text className="RowChart__label" transform="rotate(-90)" x={-(height / 2)} y={-leftAxisMaxWidth} dy="-1em" textAnchor="middle" fontSize={fontSize}>{yAxisLabel}</text>) : null}
 
             </g>
         </svg>

@@ -14,6 +14,7 @@ const BarChart: React.FC<IBarChart & InjectedProps> = ({ width, height, data, fi
 
     const margin = { top: 10, right: 10, bottom: 10, left: 10 };
     const tickPadding = 9;
+    const fontSize = 14;
     const leftLabelHeight = yAxisLabel ? 19 : 0;
     const bottomLabelHeight = xAxisLabel ? 19 : 0;
     const w = width - margin.left - margin.right - leftAxisMaxWidth - tickPadding - leftLabelHeight;
@@ -81,11 +82,8 @@ const BarChart: React.FC<IBarChart & InjectedProps> = ({ width, height, data, fi
                 />
                 <YAxis scale={scaleY} tickFormat={valueFormat} axisWidthUpdated={(we) => axisUpdated(we)} />
 
-                {xAxisLabel ? (<text className="BarChart__label" transform={`translate(${w / 2}, ${height})`} dy="-1em"
-                                     textAnchor="middle">{xAxisLabel}</text>) : null}
-                {yAxisLabel ? (
-                    <text className="BarChart__label" transform="rotate(-90)" x={-(height / 2)} y={-leftAxisMaxWidth}
-                          dy="-1em" textAnchor="middle">{yAxisLabel}</text>) : null}
+                {xAxisLabel ? (<text className="BarChart__label" transform={`translate(${w / 2}, ${height})`} dy="-1em" textAnchor="middle" fontSize={fontSize}>{xAxisLabel}</text>) : null}
+                {yAxisLabel ? (<text className="BarChart__label" transform="rotate(-90)" x={-(height / 2)} y={-leftAxisMaxWidth} dy="-1em" textAnchor="middle" fontSize={fontSize}>{yAxisLabel}</text>) : null}
             </g>
         </svg>
     );
