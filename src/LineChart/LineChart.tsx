@@ -268,7 +268,7 @@ class LineChart extends React.Component<ILineChart, State> {
     }
 
     public render() {
-        const { data, width, height, xAxisLabel, yAxisLabel, valueFormat, keyFormat, colour } = this.props;
+        const { data, width, height, xAxisLabel, yAxisLabel, valueFormat, keyFormat, colour, xAxisTicksTooltip } = this.props;
         const leftLabelHeight = yAxisLabel ? 19 : 0;
         const bottomLabelHeight = xAxisLabel ? 19 : 0;
         const h = height - margin.top - margin.bottom - this.state.xAxisHeight - bottomLabelHeight;
@@ -308,10 +308,11 @@ class LineChart extends React.Component<ILineChart, State> {
                 <g transform={`translate(${margin.left + this.state.yAxisWidth + leftLabelHeight}, ${margin.top})`}>
                     <XAxis
                         height={h}
-                        scale={this.scaleX() as any}
+                        scale={this.scaleX()}
                         tickFormat={keyFormat}
                         rotate={this.props.xAxisTicksRotate}
                         axisHeightUpdated={this.bottomAxisUpdated}
+                        xAxisTicksTooltip={xAxisTicksTooltip}
                     />
                     <YAxis
                         scale={this.scaleY()}

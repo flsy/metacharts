@@ -15,6 +15,7 @@ export interface ILineChart {
   keyFormat?: (value: string, index: number) => string;
 
   xAxisTicksRotate?: number;
+  xAxisTicksTooltip?: boolean;
   xAxisLabel?: string;
   yAxisLabel?: string;
 }
@@ -34,6 +35,7 @@ export interface IBarChart {
   valueFormat?: (value: number) => string;
   tooltipValueFormat?: (value: number) => string;
   xAxisTicksRotate?: number;
+  xAxisTicksTooltip?: boolean;
   xAxisLabel?: string;
   yAxisLabel?: string;
   filters?: string[];

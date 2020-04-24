@@ -30,7 +30,7 @@ const LineChartDemo = () => {
 
     return (
         <div>
-            <DemoContainer title="Line chart" settings={{ withXLabel: true, withYLabel: true, useKeyFormat: false, useFilters: true, xLabelRotate: false }} data={data}>
+            <DemoContainer title="Line chart" settings={{ withXLabel: true, withYLabel: true, useKeyFormat: false, useFilters: true, xLabelRotate: false, xAxisTicksTooltip: false }} data={data}>
                 {(settings, input) => {
                     return (
                         <div>
@@ -46,6 +46,7 @@ const LineChartDemo = () => {
                                 filterTo={settings.useFilters ? filter.to : undefined}
                                 keyFormat={settings.useKeyFormat ? (value) => `${value},-` : undefined}
                                 xAxisTicksRotate={settings.xLabelRotate ? -45 : undefined}
+                                xAxisTicksTooltip={settings.xAxisTicksTooltip}
                             />
                             {settings.useFilters && <pre>{JSON.stringify(filter)}</pre>}
                         </div>

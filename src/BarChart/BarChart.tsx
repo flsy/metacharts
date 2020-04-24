@@ -1,14 +1,14 @@
 import * as React from "react";
 import { Motion, spring } from "react-motion";
 
-import { scaleBand, scaleLinear } from "d3";
+import { scaleBand, scaleLinear, select } from "d3";
 
 import { getColour, maxProp, prop, reduceAxisLabels, tooltipFormat } from "../utils";
 import { XAxis, YAxis } from "../Axis";
 import focusedHOC, { InjectedProps } from "../focusedHOC";
 import { IBarChart } from '../interfaces';
 
-const BarChart: React.FC<IBarChart & InjectedProps> = ({ width, height, data, filters, colour, focused, valueFormat, tooltipValueFormat, onFilter, onFocus, xAxisTicksRotate, xAxisLabel, yAxisLabel }) => {
+const BarChart: React.FC<IBarChart & InjectedProps> = ({ width, height, data, filters, colour, focused, valueFormat, tooltipValueFormat, onFilter, onFocus, xAxisTicksRotate, xAxisLabel, yAxisLabel, xAxisTicksTooltip }) => {
     const [leftAxisMaxWidth, setLeftAxisMaxWidth] = React.useState(0);
     const [bottomAxisMaxWidth, setBottomAxisMaxWidth] = React.useState(0);
 
@@ -24,6 +24,7 @@ const BarChart: React.FC<IBarChart & InjectedProps> = ({ width, height, data, fi
         .range([0, w])
         .padding(0.1)
         .domain(keys);
+
     const scaleY = scaleLinear()
         .range([h, 0])
         .domain([0, maxProp("value", data)]);
@@ -43,15 +44,6 @@ const BarChart: React.FC<IBarChart & InjectedProps> = ({ width, height, data, fi
     return (
         <svg width={width} height={height} className="BarChart">
             <g transform={`translate(${margin.left + leftAxisMaxWidth + tickPadding + leftLabelHeight}, ${margin.top})`}>
-                <XAxis
-                    height={h}
-                    scale={scaleX}
-                    rotate={xAxisTicksRotate}
-                    tickFormat={reduceAxisLabels(w, keys)}
-                    axisHeightUpdated={(he) => bottomAxisHeightUpdated(he)}
-                />
-                <YAxis scale={scaleY} tickFormat={valueFormat} axisWidthUpdated={(we) => axisUpdated(we)} />
-
                 {data.map(({ key, value, uniqueKey }) => (
                     <g key={uniqueKey || `${key}-${value}`}>
                         <Motion defaultStyle={{ x: h }} style={{ x: spring(scaleY(value)) }}>
@@ -78,6 +70,16 @@ const BarChart: React.FC<IBarChart & InjectedProps> = ({ width, height, data, fi
                         </title>
                     </g>
                 ))}
+
+                <XAxis
+                    height={h}
+                    scale={scaleX}
+                    rotate={xAxisTicksRotate}
+                    tickFormat={reduceAxisLabels(w, keys)}
+                    axisHeightUpdated={(he) => bottomAxisHeightUpdated(he)}
+                    xAxisTicksTooltip={xAxisTicksTooltip}
+                />
+                <YAxis scale={scaleY} tickFormat={valueFormat} axisWidthUpdated={(we) => axisUpdated(we)} />
 
                 {xAxisLabel ? (<text className="BarChart__label" transform={`translate(${w / 2}, ${height})`} dy="-1em"
                                      textAnchor="middle">{xAxisLabel}</text>) : null}

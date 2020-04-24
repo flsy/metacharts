@@ -3,17 +3,69 @@ import * as React from "react";
 import { axisBottom, axisLeft, ScaleBand, ScaleLinear, select } from "d3";
 import { max } from "./utils";
 
+const letters = Array.from('ABCDEFGHIJKLMNOPQRSTUVWZ00000000000000000000000000000000000');
+
+enum LetterWidths {
+    XS = 4.45,
+    S = 5.39,
+    M = 6.13,
+    L = 7.11,
+    X = 8,
+    XL = 12
+}
+
+const letter = {
+    a: LetterWidths.L,
+    b: LetterWidths.X,
+    c: LetterWidths.L,
+    d: LetterWidths.X,
+    e: LetterWidths.L,
+    f: LetterWidths.M,
+    g: LetterWidths.X,
+    h: LetterWidths.X,
+    i: LetterWidths.XS,
+    j: LetterWidths.S,
+    k: LetterWidths.X,
+    l: LetterWidths.XS,
+    m: LetterWidths.XL,
+    n: LetterWidths.X,
+    o: LetterWidths.X,
+    p: LetterWidths.X,
+    q: LetterWidths.X,
+    r: LetterWidths.S,
+    s: LetterWidths.M,
+    t: LetterWidths.XS,
+    u: LetterWidths.X,
+    v: LetterWidths.X,
+    w: LetterWidths.XL,
+    x: LetterWidths.X,
+    y: LetterWidths.X,
+    z: LetterWidths.L,
+}
+
+const textWidth = (text: string) => Array.from(text).reduce<number>((all, current) => {
+    return all + (letter[current] || 8);
+}, 0);
+
 interface XAxisProps {
-    scale: ScaleBand<string>;
+    scale: ScaleBand<string> | ScaleLinear<number, number>;
     height: number;
     tickFormat?: (value: string, index: number) => string;
     rotate?: number;
     axisHeightUpdated?: (labelMaxWidth: number) => void;
+    xAxisTicksTooltip?: boolean;
 }
 
-export class XAxis extends React.Component<XAxisProps, {}> {
+export class XAxis extends React.Component<XAxisProps, { label?: string }> {
     // @ts-ignore
     private axis: SVGGElement | null;
+
+    constructor(props: XAxisProps) {
+        super(props);
+        this.state = {
+            label: undefined,
+        }
+    }
 
     public componentDidMount() {
         this.updateAxis();
@@ -27,6 +79,9 @@ export class XAxis extends React.Component<XAxisProps, {}> {
 
 
         const tickFormat = (value: any, index: number): any => {
+            if (this.props.xAxisTicksTooltip) {
+                return letters[index]
+            }
             if (this.props.tickFormat) {
                 return this.props.tickFormat(value, index)
             }
@@ -37,15 +92,12 @@ export class XAxis extends React.Component<XAxisProps, {}> {
             return;
         }
 
+        // @ts-ignore
         const selected = select(this.axis).call(axisBottom(this.props.scale).tickSize(0).tickPadding(6).tickFormat(tickFormat));
 
-
-        // selected.on("mouseover", console.log)
-
-        // selected.append('title').text((x) => {
-        //     console.log(x)
-        //     return '?'
-        // });
+        if (this.props.xAxisTicksTooltip) {
+            selected.selectAll("g.tick text").attr("label", (d) => `${d}`)
+        }
 
         if (this.props.rotate) {
             selected.selectAll("g.tick text")
@@ -64,7 +116,26 @@ export class XAxis extends React.Component<XAxisProps, {}> {
 
     public render() {
         return (
-            <g transform={`translate(0,${this.props.height})`} ref={(t) => (this.axis = t)} />
+            <>
+            <g
+                transform={`translate(0,${this.props.height})`}
+                ref={(t) => (this.axis = t)}
+                onMouseOver={(e) => {
+                    if (this.props.xAxisTicksTooltip) {
+                        // @ts-ignore
+                        const label = e.target.getAttribute('label');
+                        this.setState({ label })
+                    }
+                }}
+                onMouseOut={() => this.setState({ label: undefined })}
+            />
+            {this.props.xAxisTicksTooltip && this.state.label && (
+                <g>
+                    <rect x={0} y={this.props.height - 22} height="20" width={textWidth(this.state.label) + 8} style={{ fill: 'white', stroke: 'grey', strokeWidth: 1, strokeOpacity: 0.9, fillOpacity: 0.9, }} />
+                    <text x={4} y={this.props.height - 8}>{this.state.label}</text>
+                </g>
+            )}
+            </>
         );
     }
 
