@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Motion, spring } from "react-motion";
 
-import { scaleBand, scaleLinear, select } from "d3";
+import { scaleBand, scaleLinear } from "d3";
 
 import { getColour, maxProp, prop, reduceAxisLabels, tooltipFormat } from "../utils";
 import { XAxis, YAxis } from "../Axis";
