@@ -1,4 +1,4 @@
-import { axisBottom, ScaleBand, ScaleLinear, select, Selection } from 'd3';
+import { axisBottom, ScaleBand, ScaleLinear, select } from 'd3';
 import * as React from 'react';
 import { max } from '../utils';
 import { textWidth } from './tools';
