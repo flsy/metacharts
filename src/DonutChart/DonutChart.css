@@ -1,11 +1,7 @@
-.DonutChart .label {
-    cursor: pointer;
-    padding: 10px;
+.DonutChart table tr td {
+    padding: 0 4px;
 }
 
-.DonutChart .legend {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-between;
+.DonutChart svg {
+    display: block;
 }
-

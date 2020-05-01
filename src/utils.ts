@@ -35,7 +35,7 @@ export const not = input => !input;
 
 export const remove = curry((value: any, array: any[]): any[] => array.filter(x => !equal(x, value)));
 
-type fnType = (x: any) => any;
+type fnType = (...x: any) => any;
 
 export const compose = (...fns: fnType[]) => (value: any) => fns.reduceRight((args, fn) => fn(args), value);
 

@@ -31,11 +31,16 @@ export interface IBarChart {
   width: number;
   height: number;
   colour: string;
+  colours?: string[];
 
   valueFormat?: (value: number) => string;
+  keyFormat?: (value: string, index: number) => string;
+
   tooltipValueFormat?: (value: number) => string;
   xAxisTicksRotate?: number;
   xAxisTicksTooltip?: boolean;
+  xAxisTicksTooltipFormat?: (value: string, index: number) => string;
+  xAxisTicksMaxHeight?: number;
   xAxisLabel?: string;
   yAxisLabel?: string;
   filters?: string[];
@@ -79,6 +84,7 @@ export interface IDonutChart {
 
   valueFormat?: (value: number) => string;
   tooltipValueFormat?: (value: number) => string;
+  maxTableRows?: number;
   children?: any;
 }
 

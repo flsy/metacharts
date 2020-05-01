@@ -2,7 +2,8 @@ import * as React from "react";
 
 import { bisector, extent, line, scaleLinear, } from "d3";
 
-import { XAxis, YAxis } from "../Axis";
+import XAxis from "../Axis/XAxis";
+import YAxis from "../Axis/YAxis";
 import FilterX from "./FilterX";
 import Focus from "./Focus";
 import { ILineChart, ILineChartData } from '../interfaces';

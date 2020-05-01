@@ -17,21 +17,29 @@ const DonutChart = ({
                         children,
                         valueFormat,
                         tooltipValueFormat,
+                        maxTableRows,
                     }: IDonutChart & InjectedProps) => {
-    const radius = Math.min(width, height) / 2;
+
+    const cursor = onFilter ? "pointer" : "default";
+    const margin = { top: 10, right: 10, bottom: 10, left: 10 };
+
+    const rowHeight = 20;
+    const tableTopMargin = rowHeight;
+    const tableHeight = maxTableRows ? rowHeight * maxTableRows : rowHeight * data.length;
+    const donutHeight = height - tableHeight - tableTopMargin - margin.top - margin.left;
+    const donutWidth = width - margin.left - margin.right
+    const getPie = pie<IDonutChartData>().value((d: IDonutChartData): number => d.value);
+
+    const radius = Math.min(donutWidth, donutHeight) / 2;
 
     const getArc: any = arc()
         .outerRadius(radius)
         .innerRadius(radius - (radius / 5));
 
-    const getPie = pie<IDonutChartData>().value((d: IDonutChartData): number => d.value);
-
-    const cursor = onFilter ? "pointer" : "default";
-
     return (
-        <div className="DonutChart" style={{ width }}>
-            <svg width={width} height={height}>
-                <g transform={`translate(${width / 2}, ${height / 2})`}>
+        <div className="DonutChart" style={{ width, height }}>
+            <svg width={donutWidth} height={donutHeight} style={{ margin: `${margin.top}px ${margin.left}px ${tableTopMargin}px ${margin.left}px`}}>
+                <g transform={`translate(${donutWidth / 2}, ${(donutHeight / 2)})`}>
                     {getPie(data)
                         .filter((d) => !!d.data.colour)
                         .map((slice) => (
@@ -65,7 +73,7 @@ const DonutChart = ({
                                             onMouseOut={() => onFocus(undefined)}
                                         />
                                         <title>
-                                            {`${slice.data.label ? `${slice.data.label}: ` : ""}${tooltipFormat(slice.data.value, tooltipValueFormat, valueFormat)}` }
+                                            {`${slice.data.label ? `${slice.data.label}: ` : ""}${tooltipFormat(slice.data.value, tooltipValueFormat, valueFormat)}`}
                                         </title>
                                     </g>
                                 )}
@@ -74,8 +82,7 @@ const DonutChart = ({
                     {children}
                 </g>
             </svg>
-
-            <div className="legend">
+            <table cellSpacing={0} cellPadding={0} style={{ border: 'none', borderCollapse: 'collapse', margin: `0 ${margin.left}px ${margin.bottom}px ${margin.left}px` }}>
                 {data.filter((d) => !!d.label).map(({ label, value, colour }, index) => (
                     <Motion
                         key={label}
@@ -83,35 +90,33 @@ const DonutChart = ({
                         style={{ x: spring(value, { precision: 10 }) }}
                     >
                         {(val) => {
-                            const circleSize = label === focused ? 10 : 6;
+                            if (maxTableRows && index >= maxTableRows) {
+                                return <></>;
+                            }
+                            const circleR = rowHeight / 2;
+                            const circleSize = label === focused ? circleR : 6;
                             return (
-                                <div
+                                <tr
                                     onClick={onFilter ? () => onFilter(label) : undefined}
                                     onMouseOver={() => onFocus(label || undefined)}
                                     onMouseOut={() => onFocus(undefined)}
-                                    className="label"
-                                    style={{ cursor }}
+                                    style={{ cursor, height: rowHeight }}
                                 >
-                                    <div className="legend-item" style={{ fontSize: '14px' }}>
-                                        <svg height="20" width="20">
-                                            <Motion
-                                                defaultStyle={{ x: 0 }}
-                                                style={{ x: spring(circleSize) }}
-                                            >
-                                                {({ x }) => (
-                                                    <circle cx="10" cy="10" r={x} fill={colour} />
-                                                )}
+                                    <td>
+                                        <svg height={rowHeight} width={rowHeight}>
+                                            <Motion defaultStyle={{ x: 0 }} style={{ x: spring(circleSize) }}>
+                                                {({ x }) => (<circle cx={circleR} cy={circleR} r={x} fill={colour} />)}
                                             </Motion>
                                         </svg>
-                                        <div>{label}</div>
-                                        <div>{valueFormat ? valueFormat(val.x) : val.x}</div>
-                                    </div>
-                                </div>
+                                    </td>
+                                    <td>{label}</td>
+                                    <td>{valueFormat ? valueFormat(val.x) : val.x}</td>
+                                </tr>
                             );
                         }}
                     </Motion>
                 ))}
-            </div>
+            </table>
         </div>
     );
 };

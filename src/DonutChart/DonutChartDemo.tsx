@@ -33,16 +33,17 @@ const DonutChartDemo: React.FC = () => {
     };
 
     return (
-        <DemoContainer title="Donut chart" settings={{ customValueFormat: true, filterable: true }} data={data}>
+        <DemoContainer title="Donut chart" settings={{ customValueFormat: true, filterable: true, maxTableRows: false }} data={data}>
             {(settings, input) => (
                 <>
                     <DonutChart
                         width={300}
-                        height={200}
+                        height={300}
                         data={input}
                         filters={settings.filterable ? filters :  undefined}
                         onFilter={settings.filterable ? (label) => filter(label) : undefined}
                         valueFormat={settings.customValueFormat ? (x) => `${Math.floor(x)}%` : undefined}
+                        maxTableRows={settings.maxTableRows ? 2 : undefined}
 
                         // onMouseOver={(label) => this.setState({ focusedLabel: label })}
                         // onMouseOut={(label) => this.setState({ focusedLabel: undefined })}

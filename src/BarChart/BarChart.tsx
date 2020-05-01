@@ -4,11 +4,12 @@ import { Motion, spring } from "react-motion";
 import { scaleBand, scaleLinear } from "d3";
 
 import { getColour, maxProp, prop, reduceAxisLabels, tooltipFormat } from "../utils";
-import { XAxis, YAxis } from "../Axis";
 import focusedHOC, { InjectedProps } from "../focusedHOC";
 import { IBarChart } from '../interfaces';
+import XAxis from '../Axis/XAxis';
+import YAxis from '../Axis/YAxis';
 
-const BarChart: React.FC<IBarChart & InjectedProps> = ({ width, height, data, filters, colour, focused, valueFormat, tooltipValueFormat, onFilter, onFocus, xAxisTicksRotate, xAxisLabel, yAxisLabel, xAxisTicksTooltip }) => {
+const BarChart: React.FC<IBarChart & InjectedProps> = ({ width, height, data, filters, colour, colours, focused, keyFormat, valueFormat, tooltipValueFormat, onFilter, onFocus, xAxisTicksRotate, xAxisLabel, yAxisLabel, xAxisTicksTooltip, xAxisTicksTooltipFormat }) => {
     const [leftAxisMaxWidth, setLeftAxisMaxWidth] = React.useState(0);
     const [bottomAxisMaxWidth, setBottomAxisMaxWidth] = React.useState(0);
 
@@ -45,11 +46,13 @@ const BarChart: React.FC<IBarChart & InjectedProps> = ({ width, height, data, fi
     return (
         <svg width={width} height={height} className="BarChart">
             <g transform={`translate(${margin.left + leftAxisMaxWidth + tickPadding + leftLabelHeight}, ${margin.top})`}>
-                {data.map(({ key, value, uniqueKey }) => (
+                {data.map(({ key, value, uniqueKey }, index) => (
                     <g key={uniqueKey || `${key}-${value}`}>
                         <Motion defaultStyle={{ x: h }} style={{ x: spring(scaleY(value)) }}>
                             {({ x }) => {
                                 const heightFinal = h - x;
+                                const c = colours && colours[index] ? colours[index] : colour;
+
                                 return (
                                     <rect
                                         x={scaleX(key)}
@@ -57,7 +60,7 @@ const BarChart: React.FC<IBarChart & InjectedProps> = ({ width, height, data, fi
                                         cursor={onFilter ? "pointer" : "default"}
                                         width={scaleX.bandwidth()}
                                         height={heightFinal > 0 ? heightFinal : 0}
-                                        fill={getColour(colour, key, filters, focused === key)}
+                                        fill={getColour(c, key, filters, focused === key)}
                                         onClick={onFilter ? () => onFilter(key) : undefined}
                                         onMouseEnter={() => onFocus(key)}
                                         onMouseLeave={() => onFocus(undefined)}
@@ -76,9 +79,11 @@ const BarChart: React.FC<IBarChart & InjectedProps> = ({ width, height, data, fi
                     height={h}
                     scale={scaleX}
                     rotate={xAxisTicksRotate}
-                    tickFormat={reduceAxisLabels(w, keys)}
+                    reduceAxisLabels={reduceAxisLabels(w, keys)}
+                    tickFormat={keyFormat}
                     axisHeightUpdated={(he) => bottomAxisHeightUpdated(he)}
                     xAxisTicksTooltip={xAxisTicksTooltip}
+                    xAxisTicksTooltipFormat={xAxisTicksTooltipFormat}
                 />
                 <YAxis scale={scaleY} tickFormat={valueFormat} axisWidthUpdated={(we) => axisUpdated(we)} />
 
