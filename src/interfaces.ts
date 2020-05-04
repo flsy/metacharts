@@ -40,7 +40,7 @@ export interface IBarChart {
   xAxisTicksRotate?: number;
   xAxisTicksTooltip?: boolean;
   xAxisTicksTooltipFormat?: (value: string, index: number) => string;
-  xAxisTicksMaxHeight?: number;
+
   xAxisLabel?: string;
   yAxisLabel?: string;
   filters?: string[];
