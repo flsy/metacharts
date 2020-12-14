@@ -36,7 +36,6 @@ export interface IBarChart {
   valueFormat?: (value: number) => string;
   keyFormat?: (value: string, index: number) => string;
 
-  tooltipValueFormat?: (value: number) => string;
   xAxisTicksRotate?: number;
   xAxisTicksTooltip?: boolean;
   xAxisTicksTooltipFormat?: (value: string, index: number) => string;

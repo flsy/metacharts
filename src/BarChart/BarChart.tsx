@@ -3,13 +3,13 @@ import { Motion, spring } from "react-motion";
 
 import { scaleBand, scaleLinear } from "d3";
 
-import { getColour, maxProp, prop, reduceAxisLabels, tooltipFormat } from "../utils";
+import { getColour, maxProp, prop, reduceAxisLabels } from "../utils";
 import focusedHOC, { InjectedProps } from "../focusedHOC";
 import { IBarChart } from '../interfaces';
 import XAxis from '../Axis/XAxis';
 import YAxis from '../Axis/YAxis';
 
-const BarChart: React.FC<IBarChart & InjectedProps> = ({ width, height, data, filters, colour, colours, focused, keyFormat, valueFormat, tooltipValueFormat, onFilter, onFocus, xAxisTicksRotate, xAxisLabel, yAxisLabel, xAxisTicksTooltip, xAxisTicksTooltipFormat }) => {
+const BarChart = ({ width, height, data, filters, colour, colours, focused, keyFormat, valueFormat, onFilter, onFocus, xAxisTicksRotate, xAxisLabel, yAxisLabel, xAxisTicksTooltip, xAxisTicksTooltipFormat }: IBarChart & InjectedProps) => {
     const [leftAxisMaxWidth, setLeftAxisMaxWidth] = React.useState(0);
     const [bottomAxisMaxWidth, setBottomAxisMaxWidth] = React.useState(0);
 
@@ -70,7 +70,7 @@ const BarChart: React.FC<IBarChart & InjectedProps> = ({ width, height, data, fi
                         </Motion>
 
                         <title>
-                            {`${key}: ${tooltipFormat(value, tooltipValueFormat, valueFormat)}`}
+                            {xAxisTicksTooltipFormat ? xAxisTicksTooltipFormat(key, index) : null}
                         </title>
                     </g>
                 ))}

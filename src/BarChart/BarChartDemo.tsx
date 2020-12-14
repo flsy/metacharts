@@ -24,7 +24,7 @@ const BarChartDemo: React.FC = () => {
                     xAxisTicksRotate={settings.xLabelRotate ? -90 : undefined}
                     xAxisTicksTooltip={settings.xAxisTicksTooltip}
                     keyFormat={(val) => val.length > 16 ? `${val.substring(0, 13)}...` : val}
-                    xAxisTicksTooltipFormat={(val) => `${val} ?`}
+                    xAxisTicksTooltipFormat={(key) => `${key} ?`}
                 />)}
         </DemoContainer>
     );

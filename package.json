@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "clean": "rm -rf ./lib",
-    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
     "build": "tsc --p tsconfig-lib.json",
     "prepare": "yarn build",
@@ -60,17 +60,7 @@
     ]
   },
   "jest": {
-    "transform": {
-      ".+\\.(t|j)sx?$": "ts-jest"
-    },
-    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ]
+    "preset": "ts-jest",
+    "testEnvironment": "node"
   }
 }

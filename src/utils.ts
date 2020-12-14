@@ -3,7 +3,7 @@ import { hsl } from 'd3';
 const equal = (a: any, b: any): boolean => a === b;
 
 export const curry = (fn: (...x: any[]) => any) => {
-  const r = args => {
+  const r = (args) => {
     if (args.length >= fn.length) {
       return fn(...args);
     }
@@ -31,9 +31,9 @@ export const push = (value: any, array: any[]): any[] => {
 
 export const prop = curry((name: string, object: object) => object[name]);
 
-export const not = input => !input;
+export const not = (input) => !input;
 
-export const remove = curry((value: any, array: any[]): any[] => array.filter(x => !equal(x, value)));
+export const remove = curry((value: any, array: any[]): any[] => array.filter((x) => !equal(x, value)));
 
 type fnType = (...x: any) => any;
 
@@ -53,7 +53,7 @@ export const isOdd = (value: number): boolean => value % 2 !== 0;
 
 export const makeEven = (valueToFill: any) => (array: any[]): any[] => (isOdd(array.length) ? push(valueToFill, array) : array);
 
-export const join = (by: string) => array => array.map(a => (a.filter(notNull).length > 1 ? a.join(by) : null)).filter(notNull);
+export const join = (by: string) => (array) => array.map((a) => (a.filter(notNull).length > 1 ? a.join(by) : null)).filter(notNull);
 
 const reduce = (fn, array: number[]) => {
   if (array.length === 0) {
@@ -65,7 +65,7 @@ const reduce = (fn, array: number[]) => {
 export const max = (array: number[]): number => reduce((a, b) => Math.max(a, b), array);
 // const min = (array: number[]): number => reduce((a, b) => Math.min(a, b), array);
 
-export const maxProp = (property: string, array: object[]) => max(array.map(d => d[property]));
+export const maxProp = (property: string, array: object[]) => max(array.map((d) => d[property]));
 
 export const reduceAxisLabels = (width: number, values: string[]): ((label: string, index: number) => string) => {
   const spaceForText = 15;
@@ -80,19 +80,15 @@ export const reduceAxisLabels = (width: number, values: string[]): ((label: stri
 
 export const getColour = (colour: string, label?: string, filters: string[] = [], isFocused: boolean = false): string => {
   const isFiltered = filters.length > 0;
-  if (isFiltered && !filters.find(f => f === label)) {
+  if (isFiltered && !filters.find((f) => f === label)) {
     if (isFocused) {
-      return hsl('grey')
-        .darker(0.5)
-        .toString();
+      return hsl('grey').darker(0.5).toString();
     }
     return 'grey';
   }
 
   if (isFocused) {
-    return hsl(colour)
-      .darker(0.5)
-      .toString();
+    return hsl(colour).darker(0.5).toString();
   }
   return colour;
 };
