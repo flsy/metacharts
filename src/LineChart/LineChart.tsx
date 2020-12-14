@@ -67,7 +67,7 @@ class LineChart extends React.Component<ILineChart, State> {
         };
     }
 
-    public scaleX() {
+    public scaleX(): any {
         const leftLabelHeight = this.state.yAxisWidth ? 19 : 0;
         const w = this.props.width - margin.left - margin.right - this.state.yAxisWidth - leftLabelHeight;
 
@@ -76,7 +76,7 @@ class LineChart extends React.Component<ILineChart, State> {
             .domain(extent(this.props.data, (d) => d.key) as number[]);
     }
 
-    public scaleY() {
+    public scaleY(): any {
         const bottomLabelHeight = this.props.xAxisLabel ? 19 : 0;
         const h = this.props.height - margin.top - margin.bottom - this.state.xAxisHeight - bottomLabelHeight;
         return scaleLinear()

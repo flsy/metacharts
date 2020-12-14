@@ -22,7 +22,7 @@ const RowChart: React.FC<IRowChart & InjectedProps> = ({ data = [], width, filte
     const tickPadding = 9;
     const leftLabelHeight = yAxisLabel ? 19 : 0;
 
-    const xScale = scaleLinear()
+    const xScale: any = scaleLinear()
         .range([0, w - labelWidth - valueLabelWidth - valueLabelLeftPadding])
         .domain([0, maxValue]);
 

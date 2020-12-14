@@ -27,7 +27,7 @@ const BarChart: React.FC<IBarChart & InjectedProps> = ({ width, height, data, fi
         .padding(0.1)
         .domain(keys);
 
-    const scaleY = scaleLinear()
+    const scaleY: any = scaleLinear()
         .range([h, 0])
         .domain([0, maxProp("value", data)]);
 
