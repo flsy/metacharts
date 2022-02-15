@@ -7,11 +7,11 @@ interface YAxisProps {
     scale: ScaleLinear<number, any | {}>;
     axisWidthUpdated?: (labelMaxWidth: number) => void;
     tickFormat?: (value: number) => string;
+    ticks?: number;
 }
 
 class YAxis extends React.Component<YAxisProps, {}> {
-    // @ts-ignore
-    private axis: SVGGElement | null;
+    private axis: SVGGElement | undefined | null;
 
     public componentDidMount() {
         this.updateAxis();
@@ -22,8 +22,17 @@ class YAxis extends React.Component<YAxisProps, {}> {
     }
 
     public updateAxis() {
-        // @ts-ignore
-        const axis = select(this.axis).call(axisLeft(this.props.scale).tickFormat(this.props.tickFormat || null));
+        const d = axisLeft(this.props.scale)
+        if (this.props.tickFormat) {
+            d.tickFormat(this.props.tickFormat as any)
+        }
+        if (this.props.ticks) {
+            d.ticks(this.props.ticks)
+        }
+        if (!this.axis) {
+            return;
+        }
+        const axis = select(this.axis).call(d as any);
 
         if (this.props.axisWidthUpdated) {
             // @ts-ignore
