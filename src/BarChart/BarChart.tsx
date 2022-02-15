@@ -46,7 +46,7 @@ const BarChart = ({ width, height, data, filters, colour, colours, focused, keyF
     return (
         <svg width={width} height={height} className="BarChart">
             <g transform={`translate(${margin.left + leftAxisMaxWidth + tickPadding + leftLabelHeight}, ${margin.top})`}>
-                {data.map(({ key, value, uniqueKey }, index) => (
+                {data.filter(e => e.value !== 0).map(({ key, value, uniqueKey }, index) => (
                     <g key={uniqueKey || `${key}-${value}`}>
                         <Motion defaultStyle={{ x: h }} style={{ x: spring(scaleY(value)) }}>
                             {({ x }) => {
