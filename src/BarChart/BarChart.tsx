@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Motion, spring } from "react-motion";
 
-import { scaleBand, scaleLinear } from "d3";
+import { scaleBand, ScaleLinear, scaleLinear } from "d3";
 
 import { getColour, maxProp, prop, reduceAxisLabels } from "../utils";
 import focusedHOC, { InjectedProps } from "../focusedHOC";
@@ -27,9 +27,9 @@ const BarChart = ({ width, height, data, filters, colour, colours, focused, keyF
         .padding(0.1)
         .domain(keys);
 
-    const scaleY: any = scaleLinear()
+    const scaleY: ScaleLinear<number, any> = scaleLinear()
         .range([h, 0])
-        .domain([0, maxProp("value", data)]);
+        .domain([0, maxProp("value", data) ?? 1]);
 
     const axisUpdated = (width: number) => {
         if (leftAxisMaxWidth !== width) {
@@ -43,10 +43,12 @@ const BarChart = ({ width, height, data, filters, colour, colours, focused, keyF
         }
     };
 
+    const prepared = data.filter(d => d.value !== 0);
+
     return (
         <svg width={width} height={height} className="BarChart">
             <g transform={`translate(${margin.left + leftAxisMaxWidth + tickPadding + leftLabelHeight}, ${margin.top})`}>
-                {data.filter(e => e.value !== 0).map(({ key, value, uniqueKey }, index) => (
+                {prepared.map(({ key, value, uniqueKey }, index) => (
                     <g key={uniqueKey || `${key}-${value}`}>
                         <Motion defaultStyle={{ x: h }} style={{ x: spring(scaleY(value)) }}>
                             {({ x }) => {
@@ -85,7 +87,7 @@ const BarChart = ({ width, height, data, filters, colour, colours, focused, keyF
                     xAxisTicksTooltip={xAxisTicksTooltip}
                     xAxisTicksTooltipFormat={xAxisTicksTooltipFormat}
                 />
-                <YAxis scale={scaleY} tickFormat={valueFormat} axisWidthUpdated={(we) => axisUpdated(we)} />
+                <YAxis scale={scaleY} ticks={prepared.length === 0 ? 1 : undefined} tickFormat={valueFormat} axisWidthUpdated={(we) => axisUpdated(we)} />
 
                 {xAxisLabel ? (<text className="BarChart__label" transform={`translate(${w / 2}, ${height})`} dy="-1em" textAnchor="middle" fontSize={fontSize}>{xAxisLabel}</text>) : null}
                 {yAxisLabel ? (<text className="BarChart__label" transform="rotate(-90)" x={-(height / 2)} y={-leftAxisMaxWidth} dy="-1em" textAnchor="middle" fontSize={fontSize}>{yAxisLabel}</text>) : null}

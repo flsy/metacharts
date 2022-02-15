@@ -111,7 +111,7 @@ const HistogramDemo = () => {
 
     return (
         <DemoContainer title="Histogram" settings={{ withXLabel: true, xAxisTicksTooltip: true }} data={data}>
-            {({ xAxisTicksTooltip, withXLabel }) => {
+            {({ xAxisTicksTooltip, withXLabel }, input) => {
                 return (
                     <Histogram
                         width={400}
@@ -120,7 +120,7 @@ const HistogramDemo = () => {
                         timeFormat={format}
                         xAxisTicksRotate={-90}
                         xAxisTicksTooltip={xAxisTicksTooltip}
-                        data={data.map(item => ({
+                        data={input.map(item => ({
                             from: item[0] * 1000,
                             to: item[1] * 1000,
                             value: item[2]
