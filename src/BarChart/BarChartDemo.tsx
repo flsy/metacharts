@@ -1,6 +1,7 @@
 import React from 'react';
 import { BarChart } from '../export';
 import DemoContainer from '../DemoContainer';
+import BarChartV2 from './BarChartV2'
 
 const BarChartDemo: React.FC = () => {
 
@@ -13,19 +14,35 @@ const BarChartDemo: React.FC = () => {
     return (
         <DemoContainer title="Bar chart" settings={{ withXLabel: true, withYLabel: true, xLabelRotate: true, xAxisTicksTooltip: true }} data={data}>
             {(settings, input) => (
+              <div>
+                <BarChartV2
+                  data={input}
+                  height={300}
+                  colour="green"
+                  colours={['green', 'grey']}
+                  yAxisLabel={settings.withYLabel ? "Y label" : undefined}
+                  xAxisLabel={settings.withXLabel ? "X label" : undefined}
+                  xAxisTicksRotate={settings.xLabelRotate}
+                  xAxisTicksTooltip={settings.xAxisTicksTooltip}
+                  keyFormat={(val) => val.length > 16 ? `${val.substring(0, 13)}...` : val}
+                  xAxisTicksTooltipFormat={(key) => `${key} ?`}
+                />
+                <br />
+                <br />
                 <BarChart
-                    data={input}
-                    height={300}
-                    width={300}
-                    colour="green"
-                    colours={['green', 'grey']}
-                    yAxisLabel={settings.withYLabel ? "Y label" : undefined}
-                    xAxisLabel={settings.withXLabel ? "X label" : undefined}
-                    xAxisTicksRotate={settings.xLabelRotate ? -90 : undefined}
-                    xAxisTicksTooltip={settings.xAxisTicksTooltip}
-                    keyFormat={(val) => val.length > 16 ? `${val.substring(0, 13)}...` : val}
-                    xAxisTicksTooltipFormat={(key) => `${key} ?`}
-                />)}
+                  data={input}
+                  height={300}
+                  width={300}
+                  colour="green"
+                  colours={['green', 'grey']}
+                  yAxisLabel={settings.withYLabel ? "Y label" : undefined}
+                  xAxisLabel={settings.withXLabel ? "X label" : undefined}
+                  xAxisTicksRotate={settings.xLabelRotate ? -90 : undefined}
+                  xAxisTicksTooltip={settings.xAxisTicksTooltip}
+                  keyFormat={(val) => val.length > 16 ? `${val.substring(0, 13)}...` : val}
+                  xAxisTicksTooltipFormat={(key) => `${key} ?`}
+                />
+              </div>)}
         </DemoContainer>
     );
 };
