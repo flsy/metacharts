@@ -64,14 +64,14 @@ const BarChartV2 = (props: IProps & InjectedProps) => {
         <Tooltip
             cursor={false}
             wrapperStyle={{
-              visibility: tooltip ? 'visible' : 'hidden',
+              visibility: tooltip && xAxisTicksTooltip ? 'visible' : 'hidden',
               background: 'rgba(255,255,255,0.8)',
               border: '1px solid #aaa',
               fontSize: '13px',
               padding: '0 5px'
             }}
             position={{ x: yAxisWidth + 10, y: height - xAxisHeight - 25 }}
-            content={() => tooltip}
+            content={() => xAxisTicksTooltipFormat ? xAxisTicksTooltipFormat(tooltip, 0) : tooltip}
         />
         <XAxis
           dataKey="key"
