@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { IBarChart } from '../interfaces'
 import focusedHOC, { InjectedProps } from '../focusedHOC'
 import { getColour } from '../utils'
+import { textWidth } from '../Axis/tools'
 
 interface IProps extends Omit<IBarChart, 'width' | 'xAxisTicksRotate'> {
   xAxisTicksRotate: boolean,
@@ -31,20 +32,24 @@ const CustomizedLabel = ( { x, y, payload, xAxisTicksRotate, onHover }: any) => 
    );
 }
 
+const getLongestStr = (arr: string[]) => {
+  const res = arr.reduce((acc, curr) => curr.length > acc.length ? curr : acc, '')
+  return res.substr(0, LABEL_MAX_CHAR_COUNT)
+}
+
 const getXAxisHeight = (props: IProps & InjectedProps) => {
   if(!props.xAxisTicksRotate) {
     return 30;
   }
 
-  const maxCurrentCharCount = props.data.reduce((acc, curr) => curr.key.length > acc ? curr.key.length : acc, 1);
-  return 6 * Math.min(maxCurrentCharCount, LABEL_MAX_CHAR_COUNT) + (props.xAxisLabel ? 12 : 0);
+  const longestLabel = getLongestStr(props.data.map(d => d.key));
+  return textWidth(longestLabel) + (props.xAxisLabel ? 12 : 0);
 }
 
 const getYAxisWidth = (props: IProps & InjectedProps) => {
-  const maxCurrentCharCount = props.data.reduce((acc, curr) => curr.value.toString().length > acc ? curr.value.toString().length : acc, 1);
-  return 8 * Math.min(maxCurrentCharCount, LABEL_MAX_CHAR_COUNT) + (props.yAxisLabel ? 12 : 0);
+  const longestLabel = getLongestStr(props.data.map(d => d.value.toString()));
+  return textWidth(longestLabel) + (props.yAxisLabel ? 12 : 0);
 }
-
 
 const BarChartV2 = (props: IProps & InjectedProps) => {
   const [tooltip, setTooltip] = useState<string>('');
