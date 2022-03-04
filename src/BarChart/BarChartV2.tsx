@@ -1,9 +1,10 @@
-import { Bar, Cell, ResponsiveContainer, BarChart, XAxis, YAxis, Label, Tooltip } from 'recharts'
+import { Bar, Cell, ResponsiveContainer, BarChart, XAxis, YAxis, Label } from 'recharts'
 import React, { useState } from 'react'
 import { IBarChart } from '../interfaces'
 import focusedHOC, { InjectedProps } from '../focusedHOC'
 import { getColour } from '../utils'
 import { textWidth } from '../Axis/tools'
+import BarChartTooltip from './BarChartTooltip';
 
 interface IProps extends Omit<IBarChart, 'width' | 'xAxisTicksRotate'> {
   xAxisTicksRotate: boolean,
@@ -61,17 +62,13 @@ const BarChartV2 = (props: IProps & InjectedProps) => {
   return (
     <ResponsiveContainer height={height}>
       <BarChart data={data}>
-        <Tooltip
-            cursor={false}
-            wrapperStyle={{
-              visibility: tooltip && xAxisTicksTooltip ? 'visible' : 'hidden',
-              background: 'rgba(255,255,255,0.8)',
-              border: '1px solid #aaa',
-              fontSize: '13px',
-              padding: '0 5px'
-            }}
-            position={{ x: yAxisWidth + 10, y: height - xAxisHeight - 25 }}
-            content={() => xAxisTicksTooltipFormat ? xAxisTicksTooltipFormat(tooltip, 0) : tooltip}
+        <BarChartTooltip
+          xAxisTicksTooltip={xAxisTicksTooltip}
+          yAxisWidth={yAxisWidth}
+          height={height}
+          xAxisHeight={xAxisHeight}
+          xAxisTicksTooltipFormat={xAxisTicksTooltipFormat}
+          tooltip={tooltip}
         />
         <XAxis
           dataKey="key"
