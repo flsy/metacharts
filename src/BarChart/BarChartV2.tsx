@@ -3,54 +3,16 @@ import React, { useState } from 'react'
 import { IBarChart } from '../interfaces'
 import focusedHOC, { InjectedProps } from '../focusedHOC'
 import { getColour } from '../utils'
-import { textWidth } from '../Axis/tools'
-import BarChartTooltip from './BarChartTooltip';
+import XAxisLabelTooltip from './components/XAxisLabelTooltip';
+import XAxisTick from './components/XAxisTick'
+import { getXAxisHeight, getYAxisWidth } from './utils'
 
 interface IProps extends Omit<IBarChart, 'width' | 'xAxisTicksRotate'> {
   xAxisTicksRotate: boolean,
 }
 
-const LABEL_MAX_CHAR_COUNT = 15;
+const FONT_SIZE = 12;
 
-const CustomizedLabel = ( { x, y, payload, xAxisTicksRotate, onHover }: any) => {
-  const isAbbreviated = payload.value.length > LABEL_MAX_CHAR_COUNT;
-  return (
-    <g transform={`translate(${x},${y})`}>
-       <text
-         x={0}
-         y={-12}
-         dy={16}
-         fontSize={10}
-         textAnchor={xAxisTicksRotate ? "end" : "middle"}
-         fill="#666"
-         transform={xAxisTicksRotate ? "rotate(-90)" : ''}
-         onMouseEnter={() => onHover(payload.value)}
-         onMouseLeave={() => onHover('')}
-       >
-         {`${payload.value.substr(0, LABEL_MAX_CHAR_COUNT)}${isAbbreviated ? '...' : ''}`}
-       </text>
-     </g>
-   );
-}
-
-const getLongestStr = (arr: string[]) => {
-  const res = arr.reduce((acc, curr) => curr.length > acc.length ? curr : acc, '')
-  return res.substr(0, LABEL_MAX_CHAR_COUNT)
-}
-
-const getXAxisHeight = (props: IProps & InjectedProps) => {
-  if(!props.xAxisTicksRotate) {
-    return 30;
-  }
-
-  const longestLabel = getLongestStr(props.data.map(d => d.key));
-  return textWidth(longestLabel) + (props.xAxisLabel ? 12 : 0);
-}
-
-const getYAxisWidth = (props: IProps & InjectedProps) => {
-  const longestLabel = getLongestStr(props.data.map(d => d.value.toString()));
-  return textWidth(longestLabel) + (props.yAxisLabel ? 12 : 0);
-}
 
 const BarChartV2 = (props: IProps & InjectedProps) => {
   const [tooltip, setTooltip] = useState<string>('');
@@ -62,7 +24,7 @@ const BarChartV2 = (props: IProps & InjectedProps) => {
   return (
     <ResponsiveContainer height={height}>
       <BarChart data={data}>
-        <BarChartTooltip
+        <XAxisLabelTooltip
           xAxisTicksTooltip={xAxisTicksTooltip}
           yAxisWidth={yAxisWidth}
           height={height}
@@ -76,12 +38,12 @@ const BarChartV2 = (props: IProps & InjectedProps) => {
           tickLine={false}
           height={xAxisHeight}
           tickFormatter={keyFormat}
-          tick={<CustomizedLabel onHover={setTooltip} xAxisTicksRotate={xAxisTicksRotate} />}
+          tick={<XAxisTick onMouseEnter={setTooltip} onMouseLeave={() => setTooltip('')} xAxisTicksRotate={xAxisTicksRotate} />}
         >
-          {xAxisLabel && <Label value={xAxisLabel} fontSize={12} offset={0} position="insideBottom" />}
+          {xAxisLabel && <Label value={xAxisLabel} fontSize={FONT_SIZE} offset={0} position="insideBottom" />}
         </XAxis>
-        <YAxis interval={0} fontSize={12} width={yAxisWidth} tickFormatter={valueFormat}>
-          {yAxisLabel && <Label value={yAxisLabel} fontSize={12} angle={-90} position="insideBottomLeft"/>}
+        <YAxis interval={0} fontSize={FONT_SIZE} width={yAxisWidth} tickFormatter={valueFormat}>
+          {yAxisLabel && <Label value={yAxisLabel} fontSize={FONT_SIZE} angle={-90} position="insideBottomLeft"/>}
         </YAxis>
         <Bar dataKey="value">
           {data.map((entry, index) => {
