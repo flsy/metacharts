@@ -11,7 +11,7 @@ const XAxisLabelTooltip = ({ xAxisTicksTooltip, yAxisWidth, height, xAxisHeight,
       fontSize: '13px',
       padding: '0 5px',
     }}
-    position={{ x: yAxisWidth + 10, y: height - xAxisHeight - 25 }}
+    position={{ x: yAxisWidth + 10, y: height - xAxisHeight - 30 }}
     content={() => xAxisTicksTooltipFormat ? xAxisTicksTooltipFormat(tooltip, 0) : tooltip}
   />
 )
