@@ -19,10 +19,10 @@ export const getXAxisHeight = (props: IProps & InjectedProps) => {
   }
 
   const longestLabel = getLongestStr(props.data.map((d) => d.key));
-  return textWidth(longestLabel) + (props.xAxisLabel ? 12 : 0);
+  return textWidth(longestLabel) + (props.xAxisLabel ? 20 : 0);
 };
 
 export const getYAxisWidth = (props: IProps & InjectedProps) => {
   const longestLabel = getLongestStr(props.data.map((d) => d.value.toString()));
-  return textWidth(longestLabel) + (props.yAxisLabel ? 12 : 0);
+  return textWidth(longestLabel) + (props.yAxisLabel ? 20 : 0);
 };

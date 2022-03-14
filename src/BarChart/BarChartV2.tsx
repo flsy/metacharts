@@ -42,7 +42,7 @@ const BarChartV2 = (props: IProps & InjectedProps) => {
         >
           {xAxisLabel && <Label value={xAxisLabel} fontSize={FONT_SIZE} offset={0} position="insideBottom" />}
         </XAxis>
-        <YAxis interval={0} fontSize={FONT_SIZE} width={yAxisWidth} tickFormatter={valueFormat}>
+        <YAxis tick={{ fontSize: 10 }} interval={0} width={yAxisWidth} tickFormatter={valueFormat}>
           {yAxisLabel && <Label value={yAxisLabel} fontSize={FONT_SIZE} angle={-90} position="insideBottomLeft"/>}
         </YAxis>
         <Bar dataKey="value">
