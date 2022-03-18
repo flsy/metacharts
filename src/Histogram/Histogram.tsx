@@ -1,5 +1,5 @@
 import React from 'react';
-import BarChart from '../BarChart/BarChart';
+import BarChartV2 from '../BarChart/BarChartV2';
 
 interface IData {
     from: number;
@@ -8,24 +8,21 @@ interface IData {
 }
 
 interface IProps {
-    width: number;
     height: number;
     colour: string;
     timeFormat: (timestamp: number) => string;
     data: IData[];
-    xAxisTicksRotate?: number;
+    xAxisTicksRotate?: boolean;
     xAxisTicksTooltip?: boolean;
     xAxisTicksTooltipFormat?: (from: string, to: string, index: number) => string;
     xAxisLabel?: string;
     yAxisLabel?: string;
-
     keyFormat?: (value: string, index: number) => string;
 
 
 }
 
-const Histogram = ({height, width, data, colour, timeFormat, xAxisTicksRotate, xAxisTicksTooltip, xAxisTicksTooltipFormat, xAxisLabel, yAxisLabel, keyFormat}: IProps) => {
-
+const Histogram = ({height, data, colour, timeFormat, xAxisTicksRotate, xAxisTicksTooltip, xAxisTicksTooltipFormat, xAxisLabel, yAxisLabel, keyFormat}: IProps) => {
     const chartData = data.map(item => {
         return ({
             key: timeFormat(item.from),
@@ -38,19 +35,21 @@ const Histogram = ({height, width, data, colour, timeFormat, xAxisTicksRotate, x
         if (xAxisTicksTooltipFormat) {
             return xAxisTicksTooltipFormat(chartData[index].key, timeFormat(data[index].to), index);
         }
+
         return `${chartData[index].key} - ${timeFormat(data[index].to)} : ${chartData[index].value}`;
     }
 
     return (
-        <BarChart height={height} width={width} data={chartData}
-        colour={colour}
-        xAxisTicksRotate={xAxisTicksRotate}
-        xAxisTicksTooltip={xAxisTicksTooltip}
-        xAxisTicksTooltipFormat={defaultXAxisTicksTooltipFormat}
-        xAxisLabel={xAxisLabel}
-
-        yAxisLabel={yAxisLabel}
-        keyFormat={keyFormat}
+        <BarChartV2
+            height={height}
+            data={chartData}
+            colour={colour}
+            xAxisTicksRotate={!!xAxisTicksRotate}
+            xAxisTicksTooltip={xAxisTicksTooltip}
+            xAxisTicksTooltipFormat={defaultXAxisTicksTooltipFormat}
+            xAxisLabel={xAxisLabel}
+            yAxisLabel={yAxisLabel}
+            keyFormat={keyFormat}
         />
     )
 };

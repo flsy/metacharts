@@ -114,11 +114,10 @@ const HistogramDemo = () => {
             {({ xAxisTicksTooltip, withXLabel }, input) => {
                 return (
                     <Histogram
-                        width={400}
                         height={300}
                         colour="lightblue"
                         timeFormat={format}
-                        xAxisTicksRotate={-90}
+                        xAxisTicksRotate={true}
                         xAxisTicksTooltip={xAxisTicksTooltip}
                         data={input.map(item => ({
                             from: item[0] * 1000,

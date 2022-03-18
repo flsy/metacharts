@@ -14,7 +14,7 @@ const DemoContainer = <T extends object, D extends object | number>({ children, 
 
     return (
         <div style={{ margin: '20px 0'}}>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <div>
                 <div>
                     <h2>{title}</h2>
                     {Object.keys(changes).map(key => {
