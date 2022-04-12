@@ -8,8 +8,10 @@ interface IProps extends Omit<IBarChart, 'width' | 'xAxisTicksRotate'> {
   xAxisTicksRotate: boolean;
 }
 
-const getLongestStr = (arr: string[]) => {
-  const res = arr.reduce((acc, curr) => (curr.length > acc.length ? curr : acc), '');
+const notNull = <T>(value: T | null): value is T => value != null;
+
+const getLongestStr = (arr: Array<string | null>) => {
+  const res = arr.filter(notNull).reduce((acc, curr) => (curr.length > acc.length ? curr : acc), '');
   return res.substr(0, BAR_CHART_LABEL_MAX_CHAR_COUNT);
 };
 
