@@ -31,12 +31,16 @@ const Histogram = ({height, data, colour, timeFormat, xAxisTicksRotate, xAxisTic
         })
     })
 
-    const defaultXAxisTicksTooltipFormat = (value: string, index: number) => {
+    const byIndex = <T extends object>(index: number, data: T[]): T | undefined => data.find((_, i) => i === index)
+    const defaultXAxisTicksTooltipFormat = (value: string, index: number): string => {
+        const key = byIndex(index, chartData)?.key;
+        const to = byIndex(index, data)?.to;
+        const val = byIndex(index, data)?.value;
         if (xAxisTicksTooltipFormat) {
-            return xAxisTicksTooltipFormat(chartData[index].key, timeFormat(data[index].to), index);
+            return key && to && xAxisTicksTooltipFormat(key, timeFormat(to), index) || '';
         }
 
-        return `${chartData[index].key} - ${timeFormat(data[index].to)} : ${chartData[index].value}`;
+        return `${key} - ${to && timeFormat(to)} : ${val}`;
     }
 
     return (
