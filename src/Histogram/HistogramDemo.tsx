@@ -114,6 +114,7 @@ const HistogramDemo = () => {
             {({ xAxisTicksTooltip, withXLabel }, input) => {
                 return (
                     <Histogram
+                        isAnimationActive={false}
                         height={300}
                         colour="lightblue"
                         timeFormat={format}

@@ -1,4 +1,4 @@
-import { Bar, Cell, ResponsiveContainer, BarChart, XAxis, YAxis, Label } from 'recharts'
+import { Bar, Cell, ResponsiveContainer, BarChart, XAxis, YAxis, Label, ResponsiveContainerProps } from 'recharts'
 import React, { useState } from 'react'
 import { IBarChart } from '../interfaces'
 import focusedHOC, { InjectedProps } from '../focusedHOC'
@@ -9,6 +9,8 @@ import { getXAxisHeight, getYAxisWidth } from './utils'
 
 interface IProps extends Omit<IBarChart, 'width' | 'xAxisTicksRotate'> {
   xAxisTicksRotate: boolean,
+  width?: ResponsiveContainerProps['width'];
+  isAnimationActive?: boolean;
 }
 
 const FONT_SIZE = 12;
@@ -22,7 +24,7 @@ const BarChartV2 = (props: IProps & InjectedProps) => {
   const yAxisWidth = getYAxisWidth(props);
 
   return (
-    <ResponsiveContainer height={height}>
+    <ResponsiveContainer height={height} width={props.width}>
       <BarChart data={data}>
         <XAxisLabelTooltip
           xAxisTicksTooltip={xAxisTicksTooltip}
@@ -45,7 +47,7 @@ const BarChartV2 = (props: IProps & InjectedProps) => {
         <YAxis tick={{ fontSize: 10 }} interval={0} width={yAxisWidth} tickFormatter={valueFormat}>
           {yAxisLabel && <Label value={yAxisLabel} fontSize={FONT_SIZE} angle={-90} position="insideBottomLeft"/>}
         </YAxis>
-        <Bar dataKey="value">
+        <Bar dataKey="value" isAnimationActive={props.isAnimationActive}>
           {data.map((entry, index) => {
             const c = colours && colours[index] ? colours[index] : colour;
             return (

@@ -18,11 +18,11 @@ interface IProps {
     xAxisLabel?: string;
     yAxisLabel?: string;
     keyFormat?: (value: string, index: number) => string;
-
-
+    isAnimationActive?: boolean;
+    width?: string | number;
 }
 
-const Histogram = ({height, data, colour, timeFormat, xAxisTicksRotate, xAxisTicksTooltip, xAxisTicksTooltipFormat, xAxisLabel, yAxisLabel, keyFormat}: IProps) => {
+const Histogram = ({height, data, colour, timeFormat, xAxisTicksRotate, xAxisTicksTooltip, xAxisTicksTooltipFormat, xAxisLabel, yAxisLabel, keyFormat, isAnimationActive, width }: IProps) => {
     const chartData = data.map(item => {
         return ({
             key: timeFormat(item.from),
@@ -45,6 +45,8 @@ const Histogram = ({height, data, colour, timeFormat, xAxisTicksRotate, xAxisTic
 
     return (
         <BarChartV2
+            isAnimationActive={isAnimationActive}
+            width={width}
             height={height}
             data={chartData}
             colour={colour}
