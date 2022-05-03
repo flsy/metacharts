@@ -16,6 +16,7 @@ const BarChartDemo: React.FC = () => {
             {(settings, input) => (
               <div>
                 <BarChartV2
+                  width={100}
                   isAnimationActive={false}
                   data={input}
                   height={300}

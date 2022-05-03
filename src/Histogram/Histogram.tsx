@@ -19,7 +19,7 @@ interface IProps {
     yAxisLabel?: string;
     keyFormat?: (value: string, index: number) => string;
     isAnimationActive?: boolean;
-    width?: string | number;
+    width?: number;
 }
 
 const Histogram = ({height, data, colour, timeFormat, xAxisTicksRotate, xAxisTicksTooltip, xAxisTicksTooltipFormat, xAxisLabel, yAxisLabel, keyFormat, isAnimationActive, width }: IProps) => {
