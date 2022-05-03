@@ -1,6 +1,6 @@
 {
   "name": "metacharts",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "main": "lib/export.js",
   "types": "lib/export.d.ts",
   "homepage": "http://flsy.github.io/metacharts",
