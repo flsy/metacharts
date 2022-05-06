@@ -40,6 +40,7 @@ const DonutChartDemo: React.FC = () => {
                         width={300}
                         height={300}
                         data={input}
+                        isAnimationActive={false}
                         filters={settings.filterable ? filters :  undefined}
                         onFilter={settings.filterable ? (label) => filter(label) : undefined}
                         valueFormat={settings.customValueFormat ? (x) => `${Math.floor(x)}%` : undefined}

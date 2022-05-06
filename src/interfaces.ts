@@ -85,6 +85,7 @@ export interface IDonutChart {
   tooltipValueFormat?: (value: number) => string;
   maxTableRows?: number;
   children?: any;
+  isAnimationActive?: boolean;
 }
 
 export interface INumberChart {

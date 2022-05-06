@@ -18,6 +18,7 @@ const DonutChart = ({
                         valueFormat,
                         tooltipValueFormat,
                         maxTableRows,
+                        isAnimationActive = true
                     }: IDonutChart & InjectedProps) => {
 
     const cursor = onFilter ? "pointer" : "default";
@@ -51,9 +52,9 @@ const DonutChart = ({
                                     padAngle: slice.padAngle,
                                 }}
                                 style={{
-                                    startAngle: spring(slice.startAngle),
-                                    endAngle: spring(slice.endAngle),
-                                    padAngle: spring(slice.padAngle),
+                                    startAngle: isAnimationActive ? spring(slice.startAngle) : slice.startAngle,
+                                    endAngle: isAnimationActive ? spring(slice.endAngle) : slice.endAngle,
+                                    padAngle: isAnimationActive ? spring(slice.padAngle) : slice.padAngle,
                                 }}
                             >
                                 {(value) => (
@@ -87,7 +88,7 @@ const DonutChart = ({
                     <Motion
                         key={label}
                         defaultStyle={{ x: 0 }}
-                        style={{ x: spring(value, { precision: 10 }) }}
+                        style={{ x: isAnimationActive ? spring(value, { precision: 10 }) : value }}
                     >
                         {(val) => {
                             if (maxTableRows && index >= maxTableRows) {
@@ -104,7 +105,7 @@ const DonutChart = ({
                                 >
                                     <td>
                                         <svg height={rowHeight} width={rowHeight}>
-                                            <Motion defaultStyle={{ x: 0 }} style={{ x: spring(circleSize) }}>
+                                            <Motion defaultStyle={{ x: 0 }} style={{ x: isAnimationActive ? spring(circleSize) : circleSize }}>
                                                 {({ x }) => (<circle cx={circleR} cy={circleR} r={x} fill={colour} />)}
                                             </Motion>
                                         </svg>
