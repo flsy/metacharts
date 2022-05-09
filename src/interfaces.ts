@@ -65,6 +65,8 @@ export interface IRowChart {
 
   xAxisLabel?: string;
   yAxisLabel?: string;
+
+  isAnimated?: boolean;
 }
 
 export interface IDonutChartData {
@@ -96,4 +98,6 @@ export interface INumberChart {
 
   valueFormat?: (value: number) => string;
   tooltipValueFormat?: (value: number) => string;
+
+  isAnimationActive?: boolean;
 }

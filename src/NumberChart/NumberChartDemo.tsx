@@ -13,6 +13,7 @@ const NumberChartDemo: React.FC = () => {
         >
             {(settings, input) => (
                 <NumberChart
+                    isAnimationActive={false}
                     width={200}
                     color="#88BB88"
                     value={input}

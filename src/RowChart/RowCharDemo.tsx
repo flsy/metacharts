@@ -35,11 +35,13 @@ const RowCharDemo: React.FC = () => {
                 yLabelCustomWidth: 15,
                 xLabelCustomWidth: 100,
                 customValueFormat: false,
-                customToolTipFormat: false
+                customToolTipFormat: false,
+                isAnimated: true
             }}>
             {(settings, input) => (
                 <div>
                     <RowChart
+                        isAnimated={settings.isAnimated}
                         data={input}
                         width={400}
                         yAxisLabel={settings.withYLabel ? "Y label" : undefined}

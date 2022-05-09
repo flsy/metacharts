@@ -7,7 +7,7 @@ import focusedHOC, { InjectedProps } from "../focusedHOC";
 import { getColour, tooltipFormat } from "../utils";
 import { IRowChart } from '../interfaces';
 
-const RowChart: React.FC<IRowChart & InjectedProps> = ({ data = [], width, filters = [], focused, onFilter, onFocus, colour, valueFormat, tooltipValueFormat, labelWidth = 80, valueLabelWidth = 40, xAxisLabel, yAxisLabel }) => {
+const RowChart: React.FC<IRowChart & InjectedProps> = ({ isAnimated, data = [], width, filters = [], focused, onFilter, onFocus, colour, valueFormat, tooltipValueFormat, labelWidth = 80, valueLabelWidth = 40, xAxisLabel, yAxisLabel }) => {
     const rowHeight = 40;
     const fontSize = 14;
     const labelsHeight = fontSize + 4;
@@ -48,7 +48,7 @@ const RowChart: React.FC<IRowChart & InjectedProps> = ({ data = [], width, filte
                                 style={{ width: spring(d.value) }}
                             >
                                 {(style) => {
-                                    const widthScaled = xScale(style.width);
+                                    const widthScaled = xScale(isAnimated ? style.width : d.value);
                                     return (
                                         <rect
                                             fill={getColour(colour, d.key, filters, focused === d.key)}
