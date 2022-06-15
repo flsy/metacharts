@@ -1,7 +1,17 @@
 import React from 'react'
 import { Tooltip } from 'recharts'
+import { ITooltip } from '../interfaces';
 
-const XAxisLabelTooltip = ({ xAxisTicksTooltip, yAxisWidth, height, xAxisHeight, xAxisTicksTooltipFormat, tooltip }: any) => (
+interface IProps {
+  xAxisTicksTooltip?: boolean;
+  yAxisWidth: number;
+  height: number;
+  xAxisHeight: number
+  xAxisTicksTooltipFormat?: (tooltip: ITooltip) => string;
+  tooltip?: ITooltip;
+}
+
+const XAxisLabelTooltip = ({ xAxisTicksTooltip, yAxisWidth, height, xAxisHeight, xAxisTicksTooltipFormat, tooltip }: IProps) => (
   <Tooltip
     cursor={false}
     wrapperStyle={{
@@ -12,7 +22,7 @@ const XAxisLabelTooltip = ({ xAxisTicksTooltip, yAxisWidth, height, xAxisHeight,
       padding: '0 5px',
     }}
     position={{ x: yAxisWidth + 10, y: height - xAxisHeight - 30 }}
-    content={() => xAxisTicksTooltipFormat ? xAxisTicksTooltipFormat(tooltip, 0) : tooltip}
+    content={() => (xAxisTicksTooltipFormat && tooltip ? xAxisTicksTooltipFormat(tooltip) : tooltip ? tooltip.label : '') || ''}
   />
 )
 
