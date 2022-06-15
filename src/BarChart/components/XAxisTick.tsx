@@ -1,4 +1,5 @@
 import React from 'react'
+import { ITooltip } from '../interfaces';
 
 const isNumber = (value: unknown): value is number => typeof value === 'number';
 const toString = (value: number): string => `${value}`;
@@ -15,14 +16,19 @@ interface IProps {
   y?: number;
   payload?: {
     value: string | number;
+    index: number;
   };
   xAxisTicksRotate: boolean;
-  onMouseEnter: (label: string) => void
-  onMouseLeave: (label: string) => void
+  onMouseEnter: (tooltip:ITooltip) => void
+  onMouseLeave: (tooltip:ITooltip) => void
 }
 
 const XAxisTick = ( { x, y, payload, xAxisTicksRotate, onMouseEnter, onMouseLeave }: IProps) => {
   const value = stringify(payload?.value)
+  const tooltip: ITooltip = {
+    label: value,
+    index: payload?.index || 0
+  }
   return (
     <g transform={`translate(${x},${y})`}>
       <text
@@ -33,8 +39,8 @@ const XAxisTick = ( { x, y, payload, xAxisTicksRotate, onMouseEnter, onMouseLeav
         textAnchor={xAxisTicksRotate ? "end" : "middle"}
         fill="#666"
         transform={xAxisTicksRotate ? "rotate(-90)" : ''}
-        onMouseEnter={() => onMouseEnter(value)}
-        onMouseLeave={() => onMouseLeave(value)}
+        onMouseEnter={() => onMouseEnter(tooltip)}
+        onMouseLeave={() => onMouseLeave(tooltip)}
       >
         {`${value.substr(0, 15)}${isAbbreviated(value) ? '...' : ''}`}
       </text>

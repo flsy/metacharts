@@ -6,6 +6,7 @@ import { getColour } from '../utils'
 import XAxisLabelTooltip from './components/XAxisLabelTooltip';
 import XAxisTick from './components/XAxisTick'
 import { getXAxisHeight, getYAxisWidth } from './utils'
+import { ITooltip } from './interfaces';
 
 interface IProps extends Omit<IBarChart, 'width' | 'xAxisTicksRotate'> {
   xAxisTicksRotate: boolean,
@@ -17,7 +18,7 @@ const FONT_SIZE = 12;
 
 
 const BarChartV2 = (props: IProps & InjectedProps) => {
-  const [tooltip, setTooltip] = useState<string>('');
+  const [tooltip, setTooltip] = useState<ITooltip | undefined>(undefined);
   const { height, data, filters, colour, colours, focused, keyFormat, valueFormat, onFilter, onFocus, xAxisTicksRotate, xAxisLabel, yAxisLabel, xAxisTicksTooltip, xAxisTicksTooltipFormat } = props;
 
   const xAxisHeight = getXAxisHeight(props);
@@ -30,7 +31,7 @@ const BarChartV2 = (props: IProps & InjectedProps) => {
         yAxisWidth={yAxisWidth}
         height={height}
         xAxisHeight={xAxisHeight}
-        xAxisTicksTooltipFormat={xAxisTicksTooltipFormat}
+        xAxisTicksTooltipFormat={xAxisTicksTooltipFormat ? (t) => xAxisTicksTooltipFormat(t.label, t.index) : undefined}
         tooltip={tooltip}
       />
       <XAxis
@@ -39,7 +40,7 @@ const BarChartV2 = (props: IProps & InjectedProps) => {
         tickLine={false}
         height={xAxisHeight}
         tickFormatter={keyFormat}
-        tick={<XAxisTick onMouseEnter={setTooltip} onMouseLeave={() => setTooltip('')} xAxisTicksRotate={xAxisTicksRotate} />}
+        tick={<XAxisTick onMouseEnter={setTooltip} onMouseLeave={() => setTooltip(undefined)} xAxisTicksRotate={xAxisTicksRotate} />}
       >
         {xAxisLabel && <Label value={xAxisLabel} fontSize={FONT_SIZE} offset={0} position="insideBottom" />}
       </XAxis>
@@ -64,7 +65,7 @@ const BarChartV2 = (props: IProps & InjectedProps) => {
     </BarChart>
   )
 
-  if(props.width) {
+  if (props.width) {
     return chart;
   }
 
