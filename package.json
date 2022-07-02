@@ -1,6 +1,6 @@
 {
   "name": "metacharts",
-  "version": "0.0.23",
+  "version": "0.1.0",
   "main": "lib/export.js",
   "types": "lib/export.d.ts",
   "homepage": "http://flsy.github.io/metacharts",
@@ -26,8 +26,6 @@
   "dependencies": {
     "color": "4.2.3",
     "d3": "^5.15.0",
-    "react": "^16.13.0",
-    "react-dom": "^16.13.0",
     "react-motion": "^0.5.2",
     "recharts": "2.1.9"
   },
@@ -44,7 +42,13 @@
     "prettier": "^2.2.1",
     "react-scripts": "^4.0.1",
     "ts-jest": "^26.4.4",
-    "typescript": "^4.1.2"
+    "typescript": "^4.1.2",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0"
+  },
+  "peerDependencies": {
+    "react": "^16.13.0 || ^18.0.0",
+    "react-dom": "^16.13.0 || ^18.0.0"
   },
   "eslintConfig": {
     "extends": "react-app"
