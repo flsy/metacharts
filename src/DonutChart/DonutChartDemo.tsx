@@ -2,6 +2,7 @@ import React from 'react';
 import { DonutChart } from '../export';
 import DemoContainer from '../DemoContainer';
 import './DonutChart.css';
+import DonutChartV2 from './DonutChartV2'
 
 const data = [
     {
@@ -36,6 +37,12 @@ const DonutChartDemo: React.FC = () => {
         <DemoContainer title="Donut chart" settings={{ customValueFormat: true, filterable: true, maxTableRows: false }} data={data}>
             {(settings, input) => (
                 <>
+                    <DonutChartV2
+                      height={300}
+                      data={input}
+                      isAnimationActive={false}
+                      valueFormat={settings.customValueFormat ? (x) => `${Math.floor(x)}%` : undefined}
+                    />
                     <DonutChart
                         width={300}
                         height={300}
