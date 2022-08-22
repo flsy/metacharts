@@ -19,6 +19,61 @@ const data = [
         label: "unknown",
         value: 10,
         colour: "#AA8888"
+    },
+    {
+        label: "unknown1",
+        value: 10,
+        colour: "#AA8888"
+    },
+    {
+        label: "unknown2",
+        value: 10,
+        colour: "#AA8888"
+    },
+    {
+        label: "unknown3",
+        value: 10,
+        colour: "#AA8888"
+    },
+    {
+        label: "unknown4",
+        value: 10,
+        colour: "#AA8888"
+    },
+    {
+        label: "unknown5",
+        value: 10,
+        colour: "#AA8888"
+    },
+    {
+        label: "unknown6",
+        value: 10,
+        colour: "#AA8888"
+    },
+    {
+        label: "unknown7",
+        value: 10,
+        colour: "#AA8888"
+    },
+    {
+        label: "unknown8",
+        value: 10,
+        colour: "#AA8888"
+    },
+    {
+        label: "unknow9",
+        value: 10,
+        colour: "#AA8888"
+    },
+    {
+        label: "unknown15",
+        value: 10,
+        colour: "#AA8888"
+    },
+    {
+        label: "unknown16",
+        value: 10,
+        colour: "#AA8888"
     }
 ];
 
@@ -41,6 +96,11 @@ const DonutChartDemo: React.FC = () => {
                       height={300}
                       data={input}
                       isAnimationActive={false}
+                      maxLegendItems={{
+                          count: 3,
+                          aggregatedLabel: 'rest',
+                          aggregatedColor: '#000'
+                      }}
                       valueFormat={settings.customValueFormat ? (x) => `${Math.floor(x)}%` : undefined}
                     />
                     <DonutChart
