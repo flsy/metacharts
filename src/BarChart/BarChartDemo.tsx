@@ -9,6 +9,7 @@ const BarChartDemo: React.FC = () => {
             { key: 'way toooo long name to show', value: 8 },
             { key: '26.12.2020 15:40', value: 9 },
             { key: 'another too long name', value: 10 },
+            { key: 'another', value: 15 },
         ];
 
     return (
@@ -16,8 +17,12 @@ const BarChartDemo: React.FC = () => {
             {(settings, input) => (
               <div>
                 <BarChartV2
-                  width={100}
-                  isAnimationActive={false}
+                  brushProps={{
+                    height: 30,
+                    startIndex: data.length - 3
+                  }}
+                  width={400}
+                  isAnimationActive={true}
                   data={input}
                   height={300}
                   colour="green"

@@ -1,4 +1,4 @@
-import { Bar, Cell, ResponsiveContainer, BarChart, XAxis, YAxis, Label } from 'recharts'
+import { Bar, Cell, ResponsiveContainer, BarChart, XAxis, YAxis, Label, Brush, BrushProps } from 'recharts';
 import React, { useState } from 'react'
 import { IBarChart } from '../interfaces'
 import focusedHOC, { InjectedProps } from '../focusedHOC'
@@ -12,6 +12,7 @@ interface IProps extends Omit<IBarChart, 'width' | 'xAxisTicksRotate'> {
   xAxisTicksRotate: boolean,
   width?: number;
   isAnimationActive?: boolean;
+  brushProps?: BrushProps,
 }
 
 const FONT_SIZE = 12;
@@ -62,6 +63,7 @@ const BarChartV2 = (props: IProps & InjectedProps) => {
           )
         })}
       </Bar>
+      {props.brushProps && <Brush dataKey="value" {...props.brushProps as any}/>}
     </BarChart>
   )
 
